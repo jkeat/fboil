@@ -15,6 +15,7 @@ def home():
     return render_template('pages/placeholder.home.html')
 
 
+# TODO: remove
 @blueprint.route('/testdb')
 def testdb():
     if db.session.query(Dog).first():
