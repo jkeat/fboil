@@ -25,7 +25,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64))
+    username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(256), unique=True)
     passhash = db.Column(db.String(256))
 
@@ -33,6 +33,9 @@ class User(db.Model):
         self.username = username.lower()
         self.email = email.lower()
         self.set_password(password)
+
+    def __repr__(self):
+        return '<User {0}>'.format(self.username)
 
     def set_password(self, password):
         self.passhash = generate_password_hash(password)
