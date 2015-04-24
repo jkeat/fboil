@@ -1,6 +1,8 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from app import app
 
-db = SQLAlchemy()
+db = SQLAlchemy(app)
+db.create_all()
 
 
 class Dog(db.Model):
