@@ -1,17 +1,26 @@
 from flask import render_template, Blueprint, request
 from app.forms import *
+from app.models import *
 
 blueprint = Blueprint('pages', __name__)
 
 
 ################
-#### routes ####
+# ## routes ####
 ################
 
 
 @blueprint.route('/')
 def home():
     return render_template('pages/placeholder.home.html')
+
+
+@blueprint.route('/testdb')
+def testdb():
+    if db.session.query(Dog).first():
+        return "it works!"
+    else:
+        return "it doesn't work :(\n(or there are no Dog objects in the db)"
 
 
 @blueprint.route('/about')
