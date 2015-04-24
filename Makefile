@@ -14,7 +14,7 @@ config/%/env: config/%/requirements.txt
 	. $@/bin/activate && pip install --requirement $<
 
 shell:
-	python shell.py
+	python -i shell.py
 
 test: $(VENV)
 	. $(VENV)/bin/activate; py.test $(PYTEST_OPTIONS) tests/
