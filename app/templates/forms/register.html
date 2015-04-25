@@ -3,6 +3,7 @@
 {% block content %}
   <form method="post" class="form">
     <h3 class="form-heading">Register <a href="/" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+    {{ form.hidden_tag() }}
     {{ form.username(class_ = 'form-control first-input', placeholder = form.username.label.text, required = true, autofocus = true) }}
     {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
     {{ form.password(class_ = 'form-control', placeholder = form.password.label.text, required = true) }}

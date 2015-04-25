@@ -1,4 +1,6 @@
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, session
+from flask.ext.login import (login_user, logout_user, login_required,
+                             current_user)
 from app.forms import *
 from app.models import *
 
@@ -25,6 +27,7 @@ def testdb():
 
 
 @blueprint.route('/about')
+@login_required
 def about():
     return render_template('pages/placeholder.about.html')
 
@@ -35,10 +38,33 @@ def login():
     return render_template('forms/login.html', form=form)
 
 
-@blueprint.route('/register')
+@blueprint.route('/logout')
+def logout():
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
+    logout_user()
+    return "logged out, maybe?"
+
+
+@blueprint.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm(request.form)
-    return render_template('forms/register.html', form=form)
+    form = RegisterForm()
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('forms/register.html', form=form)
+        else:
+            new_user = form.create_user()
+            new_user.authenticated = True
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=True)
+
+            return ("registered and logged in?")
+    elif request.method == "GET":
+        return render_template('forms/register.html', form=form)
 
 
 @blueprint.route('/forgot')

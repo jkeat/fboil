@@ -49,6 +49,14 @@
       {% endif %}
     {% endwith %}
 
+    {% for field in form.errors %}
+      {% for error in form.errors[field] %}
+          <div class="alert alert-warning fade in">
+            {{ error }}
+          </div>
+      {% endfor %}
+    {% endfor %}
+
     {% block content %}{% endblock %}
 
   </div>

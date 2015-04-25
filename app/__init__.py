@@ -8,6 +8,7 @@ app.config.from_object('config.development')
 
 from app.controllers import pages
 from app import models
+from app import controllers
 
 
 app.register_blueprint(pages.blueprint)

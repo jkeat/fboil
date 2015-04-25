@@ -22,17 +22,32 @@ class RegisterForm(Form):
     )
 
     def validate(self):
-        if not Form.validate(self):
-            return False
+        return_boolean = True  # to allow all errors to be appended
 
-        user = User.query.filter(or_(  # TODO: works? add post control
-            User.username == self.username.data.lower(),
-            User.email == self.email.data.lower())).first()
-        if user:
+        if not Form.validate(self):
+            return_boolean = False
+
+        user_username = User.query.filter_by(
+            username=self.username.data.lower()).first()
+        if user_username:
+            self.email.errors.append("That username is already taken")
+            return_boolean = False
+
+        user_email = User.query.filter_by(
+            email=self.email.data.lower()).first()
+        if user_email:
             self.email.errors.append("That email is already taken")
-            return False
-        else:
-            return True
+            return_boolean = False
+
+        return return_boolean
+
+    def create_user(self):
+        new_user = User(username=self.username.data.lower(),
+                        email=self.email.data.lower(),
+                        password=self.password.data.lower())
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user
 
 
 class LoginForm(Form):
