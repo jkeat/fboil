@@ -51,8 +51,33 @@ class RegisterForm(Form):
 
 
 class LoginForm(Form):
-    name = TextField('Username', [DataRequired()])
+    username = TextField('Username', [DataRequired()])
     password = PasswordField('Password', [DataRequired()])
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+
+        # TODO: username or email for login
+        user_username = User.query.filter_by(
+            username=self.username.data.lower()).first()
+        if user_username:
+            if not user_username.check_password(self.password.data):
+                self.password.errors.append("Incorrect password")
+                return False
+        else:
+            self.username.errors.append("Incorrect username")
+            return False
+
+        return True
+
+    def get_user(self):
+        # TODO: username or email for login
+        user_username = User.query.filter_by(
+            username=self.username.data.lower()).first()
+        if user_username:
+            if user_username.check_password(self.password.data):
+                return user_username
 
 
 class ForgotForm(Form):

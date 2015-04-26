@@ -22,6 +22,8 @@ class Dog(db.Model):
 
 
 class User(db.Model):
+    # TODO: login method
+
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
