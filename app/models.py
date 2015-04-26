@@ -30,7 +30,6 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(255), unique=True)
     passhash = db.Column(db.String(255))
-    authenticated = db.Column(db.Boolean, default=False)
 
     def __init__(self, username, email, password):
         self.username = username.lower()
@@ -48,18 +47,14 @@ class User(db.Model):
 
     # Flask-Login required methods vvv
     def is_active(self):
-        """True, as all users are active."""
         return True
 
     def get_id(self):
-        """Return the id to satisfy Flask-Login's requirements."""
         return self.id
 
     def is_authenticated(self):
-        """Return True if the user is authenticated."""
-        return self.authenticated
+        return True
 
     def is_anonymous(self):
-        """False, as anonymous users aren't supported."""
         return False
     # end Flask-Login required methods ^^^
