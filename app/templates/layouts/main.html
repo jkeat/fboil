@@ -54,14 +54,22 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
+            <li><a href="/secret">Secret</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+              {% if current_user.is_authenticated() %}
+                <a class="dropdown-toggle" data-toggle="dropdown">Hi, {{ current_user.username }}! <b class="caret"></b></a>
+              {% else %}
+                <a class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+              {% endif %}
               <ul class="dropdown-menu">
-                <li><a href="/register">Signup</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/forgot">Reset Password</a></li>
+                {% if current_user.is_authenticated() %}
+                  <li><a href="/logout">Logout</a></li>
+                {% else %}
+                  <li><a href="/register">Signup</a></li>
+                  <li><a href="/login">Login</a></li>
+                {% endif %}
               </ul>
             </li>
           </ul>
@@ -102,7 +110,7 @@
   <script defer src="/static/js/libs/bootstrap-3.0.0.min.js"></script>
   <script defer src="/static/js/plugins.js"></script>
   <script defer src="/static/js/script.js"></script>
-  <!-- Google Analytics - Change UA-XXXXX-X to be your site's ID -->
+  <!-- TODO: Google Analytics - Change UA-XXXXX-X to be your site's ID -->
   <script>
   window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
   Modernizr.load({

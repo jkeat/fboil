@@ -1,5 +1,5 @@
 from flask import (render_template, Blueprint, request, session, redirect,
-                   url_for)
+                   url_for, flash)
 from flask.ext.login import (login_user, logout_user, login_required,
                              current_user)
 from app.forms import *
@@ -19,9 +19,14 @@ def home():
 
 
 @blueprint.route('/about')
-@login_required
 def about():
     return render_template('pages/placeholder.about.html')
+
+
+@blueprint.route('/secret')
+@login_required
+def secret():
+    return render_template('pages/placeholder.secret.html')
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -37,8 +42,8 @@ def login():
         else:
             user = form.get_user()
             login_user(user, remember=True)
-            redirect_page = request.args.get("next", "home")
-            return redirect(url_for("pages.{0}".format(redirect_page)))
+            redirect_page = request.args.get("next", url_for("pages.home"))
+            return redirect(redirect_page)
 
     elif request.method == 'GET':
         return render_template('forms/login.html', form=form)
@@ -67,10 +72,3 @@ def register():
             return ("registered and logged in?")
     elif request.method == "GET":
         return render_template('forms/register.html', form=form)
-
-
-# TODO
-@blueprint.route('/forgot')
-def forgot():
-    form = ForgotForm(request.form)
-    return render_template('forms/forgot.html', form=form)
