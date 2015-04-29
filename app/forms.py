@@ -1,8 +1,8 @@
 from flask_wtf import Form
-from sqlalchemy import or_
 from wtforms import TextField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, EqualTo, Length
-from models import *
+from .models import User
+from .extensions import db
 
 
 class RegisterForm(Form):
@@ -47,29 +47,20 @@ class LoginForm(Form):
         if not Form.validate(self):
             return False
 
-        # TODO: username or email for login
-        user_username = User.query.filter_by(
-            username=self.username.data.lower()).first()
-        if user_username:
-            if not user_username.check_password(self.password.data):
-                self.password.errors.append("Incorrect password")
-                return False
-        else:
-            self.username.errors.append("Incorrect username")
+        user = self.get_user()
+        if not user:
+            self.username.errors.append("Invalid login")
             return False
-
         return True
 
     def get_user(self):
-        # TODO: username or email for login
-        user_username = User.query.filter_by(
-            username=self.username.data.lower()).first()
-        if user_username:
-            if user_username.check_password(self.password.data):
-                return user_username
+        user = User.get_by_email_or_username(self.username.data.lower())
+        if user:
+            if user.check_password(self.password.data):
+                return user
 
 
 class ForgotForm(Form):
     email = TextField(
-        'Email', validators=[DataRequired(), Length(min=6, max=40)]
+        'Email', validators=[DataRequired(), Length(min=6, max=254)]
     )

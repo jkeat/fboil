@@ -8,11 +8,6 @@ from app.models import *
 pages_blueprint = Blueprint('pages', __name__)
 
 
-################
-# ## routes ####
-################
-
-
 @pages_blueprint.route('/')
 def home():
     return render_template('pages/home.html')

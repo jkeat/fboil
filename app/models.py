@@ -1,4 +1,5 @@
 from werkzeug import generate_password_hash, check_password_hash
+from sqlalchemy import or_
 from .extensions import db
 
 
@@ -54,3 +55,8 @@ class User(db.Model):
     def is_anonymous(self):
         return False
     # end Flask-Login required methods ^^^
+
+    @classmethod
+    def get_by_email_or_username(cls, identification):
+        return cls.query.filter(or_(cls.username == identification,
+                                    cls.email == identification)).first()
