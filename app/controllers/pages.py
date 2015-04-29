@@ -15,18 +15,18 @@ pages_blueprint = Blueprint('pages', __name__)
 
 @pages_blueprint.route('/')
 def home():
-    return render_template('pages/placeholder.home.html')
+    return render_template('pages/home.html')
 
 
 @pages_blueprint.route('/about')
 def about():
-    return render_template('pages/placeholder.about.html')
+    return render_template('pages/about.html')
 
 
 @pages_blueprint.route('/secret')
 @login_required
 def secret():
-    return render_template('pages/placeholder.secret.html')
+    return render_template('pages/secret.html')
 
 
 @pages_blueprint.route('/login', methods=['GET', 'POST'])
@@ -38,7 +38,7 @@ def login():
 
     if request.method == 'POST':
         if not form.validate():
-            return render_template('forms/login.html', form=form)
+            return render_template('pages/forms/login.html', form=form)
         else:
             user = form.get_user()
             login_user(user, remember=True)
@@ -46,7 +46,7 @@ def login():
             return redirect(redirect_page)
 
     elif request.method == 'GET':
-        return render_template('forms/login.html', form=form)
+        return render_template('pages/forms/login.html', form=form)
 
 
 @pages_blueprint.route('/logout')
@@ -64,7 +64,7 @@ def register():
 
     if request.method == 'POST':
         if not form.validate():
-            return render_template('forms/register.html', form=form)
+            return render_template('pages/forms/register.html', form=form)
         else:
             new_user = form.create_user()
             login_user(new_user, remember=True)
@@ -72,4 +72,4 @@ def register():
             flash("Account created successfully!")
             return redirect(url_for("pages.home"))
     elif request.method == "GET":
-        return render_template('forms/register.html', form=form)
+        return render_template('pages/forms/register.html', form=form)
