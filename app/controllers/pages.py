@@ -1,11 +1,11 @@
-from flask import (render_template, Blueprint, request, session, redirect,
-                   url_for, flash)
+from flask import (render_template, Blueprint, request, session,
+                   redirect, url_for, flash)
 from flask.ext.login import (login_user, logout_user, login_required,
                              current_user)
 from app.forms import *
 from app.models import *
 
-blueprint = Blueprint('pages', __name__)
+pages_blueprint = Blueprint('pages', __name__)
 
 
 ################
@@ -13,23 +13,23 @@ blueprint = Blueprint('pages', __name__)
 ################
 
 
-@blueprint.route('/')
+@pages_blueprint.route('/')
 def home():
     return render_template('pages/placeholder.home.html')
 
 
-@blueprint.route('/about')
+@pages_blueprint.route('/about')
 def about():
     return render_template('pages/placeholder.about.html')
 
 
-@blueprint.route('/secret')
+@pages_blueprint.route('/secret')
 @login_required
 def secret():
     return render_template('pages/placeholder.secret.html')
 
 
-@blueprint.route('/login', methods=['GET', 'POST'])
+@pages_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated():
         return redirect(url_for("pages.home"))
@@ -49,13 +49,13 @@ def login():
         return render_template('forms/login.html', form=form)
 
 
-@blueprint.route('/logout')
+@pages_blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for("pages.home"))
 
 
-@blueprint.route('/register', methods=['GET', 'POST'])
+@pages_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated():
         return redirect(url_for("pages.home"))
@@ -69,6 +69,7 @@ def register():
             new_user = form.create_user()
             login_user(new_user, remember=True)
 
-            return ("registered and logged in?")
+            flash("Account created successfully!")
+            return redirect(url_for("pages.home"))
     elif request.method == "GET":
         return render_template('forms/register.html', form=form)

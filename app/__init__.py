@@ -1,24 +1,41 @@
-import logging
-
-from flask import Flask, request as req
+from flask import Flask
+from .extensions import login_manager, db
 
 app = Flask(__name__)
 app.config.from_object('config.development')
 
 
-from app.controllers import pages
-from app import models
-from app import controllers
+from app.controllers.pages import pages_blueprint
+from app.models import User
 
 
-app.register_blueprint(pages.blueprint)
+BLUEPRINTS = (
+    pages_blueprint,
+)
 
-app.logger.setLevel(logging.NOTSET)
+
+def create_app():
+    configure_blueprints(app, BLUEPRINTS)
+    configure_extensions(app)
 
 
-@app.after_request
-def log_response(resp):
-    app.logger.info("{} {} {}\n{}".format(
-        req.method, req.url, req.data, resp)
-    )
-    return resp
+def configure_extensions(app):
+    # flask-login
+    login_manager.login_view = 'pages.login'
+    login_manager.login_message = 'Log in required.'
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+    login_manager.init_app(app)
+
+    # flask-sqlalchemy
+    db.init_app(app)
+
+
+def configure_blueprints(app, blueprints):
+    for blueprint in blueprints:
+        app.register_blueprint(blueprint)
+
+
+create_app()

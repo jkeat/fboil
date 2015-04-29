@@ -1,9 +1,5 @@
-from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug import generate_password_hash, check_password_hash
-from app import app
-
-db = SQLAlchemy(app)
-db.create_all()
+from .extensions import db
 
 
 class Dog(db.Model):

@@ -3,7 +3,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 import os
 
 from app import app
-from app.models import db
+from app.extensions import db
 
 migrate = Migrate(app, db)
 manager = Manager(app)

@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from sqlalchemy import or_
-from wtforms import TextField, PasswordField
+from wtforms import TextField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, EqualTo, Length
 from models import *
 
@@ -16,30 +16,19 @@ class RegisterForm(Form):
         'Password', validators=[DataRequired(), Length(min=6, max=40)]
     )
     confirm = PasswordField(
-        'Repeat Password',
+        'Confirm Password',
         [DataRequired(),
-            EqualTo('password', message='Passwords must match')]
+            EqualTo('password', message='Must match')]
     )
 
-    def validate(self):
-        return_boolean = True  # to allow all errors to be appended
+    def validate_username(self, field):
+        if User.query.filter_by(
+                username=field.data.lower()).first() is not None:
+            raise ValidationError("That username is already taken")
 
-        if not Form.validate(self):
-            return_boolean = False
-
-        user_username = User.query.filter_by(
-            username=self.username.data.lower()).first()
-        if user_username:
-            self.email.errors.append("That username is already taken")
-            return_boolean = False
-
-        user_email = User.query.filter_by(
-            email=self.email.data.lower()).first()
-        if user_email:
-            self.email.errors.append("That email is already taken")
-            return_boolean = False
-
-        return return_boolean
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data.lower()).first() is not None:
+            raise ValidationError("That email is already taken")
 
     def create_user(self):
         new_user = User(username=self.username.data.lower(),
