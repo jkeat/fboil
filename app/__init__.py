@@ -1,10 +1,6 @@
 from flask import Flask
 from .extensions import login_manager, db
 
-app = Flask(__name__)
-app.config.from_object('config.development')
-
-
 from app.controllers.pages import pages_blueprint
 from app.models import User
 
@@ -15,8 +11,13 @@ BLUEPRINTS = (
 
 
 def create_app():
+    app = Flask(__name__)
+    app.config.from_object('config.development')
+
     configure_blueprints(app, BLUEPRINTS)
     configure_extensions(app)
+
+    return app
 
 
 def configure_extensions(app):
@@ -36,6 +37,3 @@ def configure_extensions(app):
 def configure_blueprints(app, blueprints):
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
-
-
-create_app()

@@ -42,7 +42,7 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.passhash, password)
 
-    # Flask-Login required methods vvv
+    # ========= Flask-Login required methods vvv
     def is_active(self):
         return True
 
@@ -54,7 +54,7 @@ class User(db.Model):
 
     def is_anonymous(self):
         return False
-    # end Flask-Login required methods ^^^
+    # ========= end Flask-Login required methods ^^^
 
     @classmethod
     def get_by_email_or_username(cls, identification):
