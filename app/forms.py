@@ -1,24 +1,28 @@
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, ValidationError
-from wtforms.validators import DataRequired, EqualTo, Length
+from wtforms.validators import DataRequired, EqualTo, Length, Email
 from .models import User
 from .extensions import db
 
 
 class RegisterForm(Form):
     username = TextField(
-        'Username', validators=[DataRequired(), Length(min=3, max=25)]
+        'Username', validators=[DataRequired(), Length(
+            min=3, max=25,
+            message="Username must be between 3 and 25 characters.")]
     )
     email = TextField(
-        'Email', validators=[DataRequired(), Length(min=6, max=254)]
+        'Email', validators=[DataRequired(), Email()]
     )
     password = PasswordField(
-        'Password', validators=[DataRequired(), Length(min=6, max=40)]
+        'Password', validators=[DataRequired(), Length(
+            min=6,
+            message="Password must be between 6 and 40 characters.")]
     )
     confirm = PasswordField(
         'Confirm Password',
         [DataRequired(),
-            EqualTo('password', message='Must match')]
+            EqualTo('password', message='Passwords must match')]
     )
 
     def validate_username(self, field):
@@ -49,7 +53,7 @@ class LoginForm(Form):
 
         user = self.get_user()
         if not user:
-            self.username.errors.append("Invalid login")
+            self.username.errors.append("Hah, wrong. Try again.")
             return False
         return True
 

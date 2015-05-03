@@ -1,8 +1,8 @@
 from flask import Flask
-from .extensions import login_manager, db
+from .extensions import login_manager, db, mail
 
-from app.controllers.pages import pages_blueprint
-from app.models import User
+from .controllers.pages import pages_blueprint
+from .models import User
 
 
 BLUEPRINTS = (
@@ -32,6 +32,8 @@ def configure_extensions(app):
 
     # flask-sqlalchemy
     db.init_app(app)
+
+    mail.init_app(app)
 
 
 def configure_blueprints(app, blueprints):

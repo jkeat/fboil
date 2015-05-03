@@ -19,14 +19,13 @@ class Dog(db.Model):
 
 
 class User(db.Model):
-    # TODO: login method
-
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(255), unique=True)
     passhash = db.Column(db.String(255))
+    confirmed_email = db.Column(db.Boolean(), default=False)
 
     def __init__(self, username, email, password):
         self.username = username.lower()
@@ -41,6 +40,11 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.passhash, password)
+
+    def activate(self):
+        self.confirmed_email = True
+        db.session.add(self)
+        db.session.commit()
 
     # ========= Flask-Login required methods vvv
     def is_active(self):

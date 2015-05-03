@@ -52,7 +52,7 @@
     {% for field in form.errors %}
       {% for error in form.errors[field] %}
           <div class="alert alert-warning fade in">
-            {{ form[field].label.text }}: {{ error }}
+            {{ error }}
           </div>
       {% endfor %}
     {% endfor %}
