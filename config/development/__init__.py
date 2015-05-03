@@ -1,7 +1,7 @@
 import os
 
 DEBUG = True
-SECRET_KEY = 'myprecious'
+SECRET_KEY = os.environ['SECRET_KEY']
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/flask_boilerplate'
 HOST = 'localhost'
@@ -14,8 +14,8 @@ MAIL_USE_TLS = False
 MAIL_USE_SSL = True
 
 # gmail authentication
-MAIL_USERNAME = "company-email"  # TODO make environ variable
-MAIL_PASSWORD = "coding69"  # TODO ^^
+MAIL_USERNAME = os.environ['MAIL_USERNAME']
+MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
 
 # mail accounts
-MAIL_DEFAULT_SENDER = 'company-email@example.com'
+MAIL_DEFAULT_SENDER = "company.email@example.com"

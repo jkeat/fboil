@@ -5,7 +5,7 @@ from flask.ext.login import (login_user, logout_user, login_required,
 from itsdangerous import URLSafeSerializer, BadSignature
 from app.forms import *
 from app.models import *
-from app.decorators import activated_required
+from app.decorators import confirmed_email_required, unconfirmed_email_required
 from app.email import send_email
 
 pages_blueprint = Blueprint('pages', __name__)
@@ -23,9 +23,16 @@ def about():
 
 @pages_blueprint.route('/secret')
 @login_required
-@activated_required
+@confirmed_email_required
 def secret():
     return render_template('pages/secret.html')
+
+
+@pages_blueprint.route('/confirm-email')
+@login_required
+@unconfirmed_email_required
+def need_confirm_email():
+    return render_template('pages/confirm-email.html')
 
 
 @pages_blueprint.route('/login', methods=['GET', 'POST'])
@@ -54,23 +61,23 @@ def logout():
     return redirect(url_for("pages.home"))
 
 
-def get_serializer(secret_key=None):
+def get_serializer(secret_key=None):  # TODO: move to other file
     if secret_key is None:
         secret_key = "buttfacepoop123"  # TODO: app.secret_key
     return URLSafeSerializer(secret_key)
 
 
-def get_activation_link(user):
+def get_confirmation_link(user):  # TODO: move to other file
     s = get_serializer()
     token = s.dumps(user.id)
-    return url_for('pages.activate_user', token=token, _external=True)
+    return url_for('pages.confirm_user', token=token, _external=True)
 
 
-def email_user_activation_link(user):
+def email_user_confirmation_link(user):  # TODO: move to other file
     subject = "Please confirm your email address"
-    activation_link = get_activation_link(user)
-    html = render_template('pages/emails/activate.html',
-                           activation_link=activation_link)
+    confirmation_link = get_confirmation_link(user)
+    html = render_template('pages/emails/confirm.html',
+                           confirmation_link=confirmation_link)
     send_email(user.email, subject, html)
 
 
@@ -88,7 +95,7 @@ def register():
             new_user = form.create_user()
             login_user(new_user, remember=True)
 
-            email_user_activation_link(new_user)
+            email_user_confirmation_link(new_user)
 
             flash("Account created successfully! Please confirm your email.")
             return redirect(url_for("pages.home"))
@@ -96,8 +103,8 @@ def register():
         return render_template('pages/forms/register.html', form=form)
 
 
-@pages_blueprint.route('/users/activate/<token>')
-def activate_user(token):
+@pages_blueprint.route('/users/confirm/<token>')
+def confirm_user(token):
     s = get_serializer()
     try:
         user_id = s.loads(token)
@@ -105,6 +112,17 @@ def activate_user(token):
         abort(404)
 
     user = User.query.get_or_404(user_id)
-    user.activate()
-    flash("Your account has been activated!")
+    if user.confirmed_email is True:
+        flash("Your email has already been confirmed.")
+        return redirect(url_for("pages.home"))
+    user.confirm_email()
+    flash("Your email has been confirmed!")
     return redirect(url_for("pages.home"))
+
+
+@pages_blueprint.route('/users/resend-confirmation')
+@login_required
+@unconfirmed_email_required
+def resend_confirmation_email():
+    email_user_confirmation_link(current_user)
+    return "did it?"

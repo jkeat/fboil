@@ -41,7 +41,7 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.passhash, password)
 
-    def activate(self):
+    def confirm_email(self):
         self.confirmed_email = True
         db.session.add(self)
         db.session.commit()

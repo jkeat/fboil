@@ -1,0 +1,13 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Confirm Email{% endblock %}
+{% block content %}
+
+<div class="page-header">
+	<h1>Email not confirmed</h1>
+</div>
+<p class="lead">You haven't confirmed your account. Check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
+<a href="{{ url_for('pages.resend_confirmation_email') }}">
+	<button type="button" class="btn btn-primary">Resend confirmation</button>
+</a>
+
+{% endblock %}
