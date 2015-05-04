@@ -3,13 +3,17 @@ from flask import (render_template, Blueprint, request, session,
 from flask import current_app as APP
 from flask.ext.login import (login_user, logout_user, login_required,
                              current_user)
-from itsdangerous import URLSafeSerializer, BadSignature
+from itsdangerous import (URLSafeSerializer, URLSafeTimedSerializer,
+                          BadSignature)
 from app.forms import *
 from app.models import *
 from app.decorators import confirmed_email_required, unconfirmed_email_required
 from app.email import send_email
 
 pages_blueprint = Blueprint('pages', __name__)
+
+# TODO: blueprint for 'users'?
+# TODO: rename 'pages_blueprint' > 'pages'?
 
 
 @pages_blueprint.route('/')
@@ -38,7 +42,7 @@ def need_confirm_email():
 
 @pages_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated():  # TODO: logout required decorator
         return redirect(url_for("pages.home"))
 
     form = LoginForm(request.form)
@@ -64,7 +68,7 @@ def logout():
 
 @pages_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated():  # TODO: logout required decorator
         return redirect(url_for("pages.home"))
 
     form = RegisterForm()
@@ -86,9 +90,8 @@ def register():
 
 @pages_blueprint.route('/users/confirm/<token>')
 def confirm_user(token):
-    s = get_serializer()
     try:
-        user_id = s.loads(token)
+        user_id = load_token(token)
     except BadSignature:
         abort(404)
 
@@ -97,7 +100,7 @@ def confirm_user(token):
         flash("Your email has already been confirmed.")
         return redirect(url_for("pages.home"))
     user.confirm_email()
-    flash("Your email has been confirmed!")
+    flash("Congrats! Your accounthas been activated.")
     return redirect(url_for("pages.home"))
 
 
@@ -110,28 +113,129 @@ def resend_confirmation_email():
     return redirect(url_for("pages.home"))
 
 
-# ------------------
-# email confirmation
-# ------------------
-# TODO: split into another file,
-#       or gut functions into routing methods,
-#       or leave as is? 
+@pages_blueprint.route('/forgot', methods=['GET', 'POST'])
+def forgot_password():
+    if current_user.is_authenticated():  # TODO: logout required decorator
+        return redirect(url_for("pages.home"))
 
-def get_serializer(secret_key=None):
-    if secret_key is None:
-        secret_key = APP.config['SECRET_KEY']
+    form = ForgotPasswordForm()
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('pages/forms/forgot-password.html',
+                                   form=form)
+        else:
+            email_user_password_reset_link(form.email.data)
+            flash("Password reset link emailed.")
+            return redirect(url_for('pages.forgot_password'))
+    elif request.method == 'GET':
+        return render_template('pages/forms/forgot-password.html', form=form)
+
+
+@pages_blueprint.route('/users/reset-password/<token>',
+                       methods=["GET", "POST"])
+def reset_password(token):
+    form = ResetPasswordForm()
+
+    if request.method == "POST":
+        if not form.validate():
+            return render_template('pages/forms/reset-password.html',
+                                   form=form)
+        else:
+            # get user from encoded email token in url
+            try:
+                email = load_timed_token(token)
+            except BadSignature:
+                abort(404)
+            user = User.query.filter_by(email=email).first()
+            if user is None:
+                abort(404)
+
+            # then change their password to the new one
+            form.change_password(user)
+            flash("Password changed successfully!")
+
+            return redirect(url_for('pages.login'))
+
+    elif request.method == "GET":
+        try:
+            email = load_timed_token(token)
+        except BadSignature:
+            abort(404)
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            abort(404)
+        return render_template('pages/forms/reset-password.html', form=form)
+
+
+# =============================
+# === non-routing functions ===
+# =============================
+
+# TODO: split these into another file,
+#       or gut functions into routing methods,
+#       or leave as is?
+
+
+# ------------------
+# serializers # TODO: make a class
+# ------------------
+
+def get_serializer():
+    secret_key = APP.config['SECRET_KEY']
     return URLSafeSerializer(secret_key)
 
 
-def get_confirmation_link(user):
-    s = get_serializer()
-    token = s.dumps(user.id)
-    return url_for('pages.confirm_user', token=token, _external=True)
+def get_timed_serializer():
+    secret_key = APP.config['SECRET_KEY']
+    return URLSafeTimedSerializer(secret_key)
 
+
+def serialize_data(data):
+    s = get_serializer()
+    return s.dumps(data, salt=APP.config['SECURITY_PASSWORD_SALT'])
+
+
+def serialize_timed_data(data):
+    s = get_timed_serializer()
+    return s.dumps(data, salt=APP.config['SECURITY_PASSWORD_SALT'])
+
+
+def load_token(token):
+    s = get_serializer()
+    salt = APP.config['SECURITY_PASSWORD_SALT']
+    return s.loads(token, salt=salt)
+
+
+def load_timed_token(token, expiration=3600):
+    s = get_timed_serializer()
+    salt = APP.config['SECURITY_PASSWORD_SALT']
+    return s.loads(token, salt=salt, max_age=expiration)
+
+
+# ------------------
+# email confirmation  # TODO: used twice
+# ------------------
 
 def email_user_confirmation_link(user):
+    token = serialize_data(user.id)
+    confirmation_link = url_for('pages.confirm_user',
+                                token=token, _external=True)
+
     subject = "Please confirm your email address"
-    confirmation_link = get_confirmation_link(user)
     html = render_template('pages/emails/confirm.html',
                            confirmation_link=confirmation_link)
     send_email(user.email, subject, html)
+
+
+# --------------
+# password reset  # TODO: used once
+# --------------
+
+def email_user_password_reset_link(email):
+    token = serialize_timed_data(email)
+    reset_link = url_for('pages.reset_password', token=token, _external=True)
+    subject = "Your password reset link"
+    html = render_template('pages/emails/reset_password.html',
+                           reset_link=reset_link)
+    send_email(email, subject, html)

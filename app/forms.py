@@ -64,7 +64,25 @@ class LoginForm(Form):
                 return user
 
 
-class ForgotForm(Form):
+class ForgotPasswordForm(Form):
     email = TextField(
-        'Email', validators=[DataRequired(), Length(min=6, max=254)]
+        'Email', validators=[DataRequired(), Email()]
     )
+
+
+class ResetPasswordForm(Form):
+    password = PasswordField(
+        'New password', validators=[DataRequired(), Length(
+            min=6,
+            message="Password must be between 6 and 40 characters.")]
+    )
+    confirm = PasswordField(
+        'Confirm new password',
+        [DataRequired(),
+            EqualTo('password', message='Passwords must match')]
+    )
+
+    def change_password(self, user):
+        user.set_password(self.password.data)
+        db.session.add(user)
+        db.session.commit()

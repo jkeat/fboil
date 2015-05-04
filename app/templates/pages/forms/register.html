@@ -8,7 +8,7 @@
     {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
     {{ form.password(class_ = 'form-control', placeholder = form.password.label.text, required = true) }}
     {{ form.confirm(class_ = 'form-control last-input', placeholder = form.confirm.label.text, required = true) }}
-    <center><p>Already registered? <a href="/login">Login</a></p></center>
+    <p>Already registered? <a href="{{ url_for('pages.login') }}">Login</a></p>
     <input type="submit" value="Register" class="btn btn-primary btn-lg btn-block">
     <br>
   </form>
