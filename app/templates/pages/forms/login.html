@@ -2,12 +2,12 @@
 {% block title %}Login{% endblock %}
 {% block content %}
   <form method="post" class="form">
-    <h3 class="form-heading">Login <a href="/" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+    <h3 class="form-heading">Login <a href="{{ url_for('pages.home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
     {{ form.hidden_tag() }}
     {{ form.username(class_ = 'form-control first-input', placeholder = form.username.label.text, required = true, autofocus = true) }}
     {{ form.password(class_ = 'form-control last-input', placeholder = form.password.label.text, required = true) }}
-    <p class="pull-left"><a href="/forgot">Forgot Password?</a></p>
-    <p class="pull-right"><a href="/register">Register</a></p>
+    <p class="pull-left"><a href="{{ url_for('pages.forgot_password') }}">Forgot Password?</a></p>
+    <p class="pull-right"><a href="{{ url_for('pages.register') }}">Register</a></p>
     <input type="submit" value="Submit" class="btn btn-primary btn-lg btn-block">
   </form>
 {% endblock %}

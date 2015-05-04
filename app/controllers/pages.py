@@ -1,5 +1,6 @@
 from flask import (render_template, Blueprint, request, session,
                    redirect, url_for, flash, abort)
+from flask import current_app as APP
 from flask.ext.login import (login_user, logout_user, login_required,
                              current_user)
 from itsdangerous import URLSafeSerializer, BadSignature
@@ -61,26 +62,6 @@ def logout():
     return redirect(url_for("pages.home"))
 
 
-def get_serializer(secret_key=None):  # TODO: move to other file
-    if secret_key is None:
-        secret_key = "buttfacepoop123"  # TODO: app.secret_key
-    return URLSafeSerializer(secret_key)
-
-
-def get_confirmation_link(user):  # TODO: move to other file
-    s = get_serializer()
-    token = s.dumps(user.id)
-    return url_for('pages.confirm_user', token=token, _external=True)
-
-
-def email_user_confirmation_link(user):  # TODO: move to other file
-    subject = "Please confirm your email address"
-    confirmation_link = get_confirmation_link(user)
-    html = render_template('pages/emails/confirm.html',
-                           confirmation_link=confirmation_link)
-    send_email(user.email, subject, html)
-
-
 @pages_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated():
@@ -125,4 +106,32 @@ def confirm_user(token):
 @unconfirmed_email_required
 def resend_confirmation_email():
     email_user_confirmation_link(current_user)
-    return "did it?"
+    flash("Resent confirmation email.")
+    return redirect(url_for("pages.home"))
+
+
+# ------------------
+# email confirmation
+# ------------------
+# TODO: split into another file,
+#       or gut functions into routing methods,
+#       or leave as is? 
+
+def get_serializer(secret_key=None):
+    if secret_key is None:
+        secret_key = APP.config['SECRET_KEY']
+    return URLSafeSerializer(secret_key)
+
+
+def get_confirmation_link(user):
+    s = get_serializer()
+    token = s.dumps(user.id)
+    return url_for('pages.confirm_user', token=token, _external=True)
+
+
+def email_user_confirmation_link(user):
+    subject = "Please confirm your email address"
+    confirmation_link = get_confirmation_link(user)
+    html = render_template('pages/emails/confirm.html',
+                           confirmation_link=confirmation_link)
+    send_email(user.email, subject, html)
