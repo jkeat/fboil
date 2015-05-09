@@ -1,12 +1,14 @@
 from flask import Flask
-from .extensions import login_manager, db, mail
+from .extensions import login_manager, db, mail, serializer
 
-from .controllers.pages import pages_blueprint
-from .models import User
+from .models.users import User
 
+from .controllers.pages import pages
+from .controllers.users import users
 
 BLUEPRINTS = (
-    pages_blueprint,
+    pages,
+    users,
 )
 
 
@@ -22,7 +24,7 @@ def create_app():
 
 def configure_extensions(app):
     # flask-login
-    login_manager.login_view = 'pages.login'
+    login_manager.login_view = 'users.login'
     login_manager.login_message = 'Log in required.'
 
     @login_manager.user_loader
@@ -33,7 +35,11 @@ def configure_extensions(app):
     # flask-sqlalchemy
     db.init_app(app)
 
+    # flask-mail
     mail.init_app(app)
+
+    # serialize
+    serializer.init_app(app)
 
 
 def configure_blueprints(app, blueprints):

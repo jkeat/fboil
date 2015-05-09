@@ -65,10 +65,10 @@
               {% endif %}
               <ul class="dropdown-menu">
                 {% if current_user.is_authenticated() %}
-                  <li><a href="{{ url_for('pages.logout') }}">Logout</a></li>
+                  <li><a href="{{ url_for('users.logout') }}">Logout</a></li>
                 {% else %}
-                  <li><a href="{{ url_for('pages.register') }}">Signup</a></li>
-                  <li><a href="{{ url_for('pages.login') }}">Login</a></li>
+                  <li><a href="{{ url_for('users.register') }}">Signup</a></li>
+                  <li><a href="{{ url_for('users.login') }}">Login</a></li>
                 {% endif %}
               </ul>
             </li>

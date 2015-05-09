@@ -1,8 +1,8 @@
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, EqualTo, Length, Email
-from .models import User
-from .extensions import db
+from ..models.users import User
+from ..extensions import db
 
 
 class RegisterForm(Form):
@@ -68,6 +68,10 @@ class ForgotPasswordForm(Form):
     email = TextField(
         'Email', validators=[DataRequired(), Email()]
     )
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data.lower()).first() is None:
+            raise ValidationError("Email not found. Try again!")
 
 
 class ResetPasswordForm(Form):

@@ -1,22 +1,7 @@
 import os
 from werkzeug import generate_password_hash, check_password_hash
 from sqlalchemy import or_
-from .extensions import db
-
-
-class Dog(db.Model):
-    __tablename__ = 'dogs'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
-    age = db.Column(db.Integer)
-
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-    def __repr__(self):
-        return '<Dog {0}>'.format(self.name)
+from ..extensions import db
 
 
 class User(db.Model):
