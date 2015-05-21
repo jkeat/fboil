@@ -12,9 +12,9 @@ BLUEPRINTS = (
 )
 
 
-def create_app():
+def create_app(config_filename):
     app = Flask(__name__)
-    app.config.from_object('config.development')
+    app.config.from_object(config_filename)
 
     configure_blueprints(app, BLUEPRINTS)
     configure_extensions(app)

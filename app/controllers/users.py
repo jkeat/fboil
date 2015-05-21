@@ -46,7 +46,7 @@ def logout():
     return redirect(url_for("pages.home"))
 
 
-@users.route('/register', methods=['GET', 'POST'])
+@users.route('/signup', methods=['GET', 'POST'])
 @logout_required
 def register():
     form = RegisterForm()
