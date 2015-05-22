@@ -2,7 +2,9 @@
 import os
 from flask import *
 from app import *
-from app.models import *
+
+app = create_app('config.development')
+app.test_request_context().push()
 
 # run with the -i flag to enter shell after executing
 # $ python -i shell.py

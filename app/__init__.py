@@ -1,7 +1,7 @@
 from flask import Flask
 from .extensions import login_manager, db, mail, serializer
 
-from .models.users import User
+from .models import *
 
 from .controllers.pages import pages
 from .controllers.users import users
