@@ -9,14 +9,14 @@ then run
 
 	make server
 
-then put these environment variable exports in config/env/bin/activate
+you'll get an error. you need to put these environment variable exports in config/env/bin/activate
 
 	export SECRET_KEY="really-long-good-random-key"
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
 	export MAIL_PASSWORD="p4ssw0rd"
 
-finally run 
+finally, run
 
 	make server
 
