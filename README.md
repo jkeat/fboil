@@ -15,6 +15,10 @@ next you need to set these environment variables in config/env/bin/activate
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
 	export MAIL_PASSWORD="p4ssw0rd"
+	
+then initialize the database
+
+	make database
 
 finally, run
 
