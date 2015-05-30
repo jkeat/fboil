@@ -20,7 +20,7 @@ finally, run
 
 	make server
 
-### major additions to flask-boilerplate
+### additions to flask-boilerplate
 + user accounts
 + email confirmation
 + password reset
