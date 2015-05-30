@@ -7,9 +7,9 @@ first create a postgresql database called flask_boilerplate
 
 then run
 
-	make server
+	make install
 
-you'll get an error. you need to set these environment variables config/env/bin/activate
+next you need to set these environment variables in config/env/bin/activate
 
 	export SECRET_KEY="really-long-good-random-key"
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
