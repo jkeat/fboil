@@ -1,22 +1,22 @@
 from flask import (render_template, Blueprint)
 from flask.ext.login import login_required
-from app.decorators import confirmed_email_required
+from ..decorators import confirmed_email_required
 
 
-pages = Blueprint('pages', __name__)
+pages_blueprint = Blueprint('pages', __name__)
 
 
-@pages.route('/')
+@pages_blueprint.route('/')
 def home():
     return render_template('pages/home.html')
 
 
-@pages.route('/about')
+@pages_blueprint.route('/about')
 def about():
     return render_template('pages/about.html')
 
 
-@pages.route('/secret')
+@pages_blueprint.route('/secret')
 @login_required
 @confirmed_email_required
 def secret():

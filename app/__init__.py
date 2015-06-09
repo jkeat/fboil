@@ -3,13 +3,16 @@ from .extensions import login_manager, db, mail, serializer
 
 from .models import *
 
-from .controllers.pages import pages
-from .controllers.users import users
+from .controllers.pages import pages_blueprint
+from .controllers.users import users_blueprint
 
 BLUEPRINTS = (
-    pages,
-    users,
+    pages_blueprint,
+    users_blueprint,
 )
+
+
+# TODO: update testing
 
 
 def create_app(config_filename):

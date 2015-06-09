@@ -12,17 +12,17 @@ from ..decorators import (confirmed_email_required,
 from ..utils import send_email
 
 
-users = Blueprint('users', __name__)
+users_blueprint = Blueprint('users', __name__)
 
 
-@users.route('/confirm-email')
+@users_blueprint.route('/confirm-email')
 @login_required
 @unconfirmed_email_required
 def need_confirm_email():
     return render_template('users/confirm-email.html')
 
 
-@users.route('/login', methods=['GET', 'POST'])
+@users_blueprint.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
     form = LoginForm(request.form)
@@ -40,13 +40,13 @@ def login():
         return render_template('users/forms/login.html', form=form)
 
 
-@users.route('/logout')
+@users_blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for("pages.home"))
 
 
-@users.route('/signup', methods=['GET', 'POST'])
+@users_blueprint.route('/signup', methods=['GET', 'POST'])
 @logout_required
 def register():
     form = RegisterForm()
@@ -66,7 +66,7 @@ def register():
         return render_template('users/forms/register.html', form=form)
 
 
-@users.route('/users/confirm/<token>')
+@users_blueprint.route('/users/confirm/<token>')
 def confirm_user(token):
     try:
         user_id = serializer.load_token(token)
@@ -82,7 +82,7 @@ def confirm_user(token):
     return redirect(url_for("pages.home"))
 
 
-@users.route('/users/resend-confirmation')
+@users_blueprint.route('/users/resend-confirmation')
 @login_required
 @unconfirmed_email_required
 def resend_confirmation_email():
@@ -91,7 +91,7 @@ def resend_confirmation_email():
     return redirect(url_for("pages.home"))
 
 
-@users.route('/forgot', methods=['GET', 'POST'])
+@users_blueprint.route('/forgot', methods=['GET', 'POST'])
 @logout_required
 def forgot_password():
     form = ForgotPasswordForm()
@@ -115,7 +115,7 @@ def forgot_password():
         return render_template('users/forms/forgot-password.html', form=form)
 
 
-@users.route('/users/reset-password/<token>', methods=["GET", "POST"])
+@users_blueprint.route('/users/reset-password/<token>', methods=["GET", "POST"])
 def reset_password(token):
     form = ResetPasswordForm()
 
