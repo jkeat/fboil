@@ -1,6 +1,6 @@
 ## fboil
 
-Extension of the updated Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
+Extension of the updated version of the Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
 
 ### getting started
 first create two postgresql databases called fboil and fboil_test
@@ -12,7 +12,7 @@ then run
 next you need to set these environment variables in config/env/bin/activate
 (set APP_SETTINGS to config.your_deployment_config_file on deployment)
 
-	export APP_SETTINGS = "config.development"
+	export APP_SETTINGS="config.development"
 	export SECRET_KEY="really-long-good-random-key"
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
@@ -30,7 +30,7 @@ to activate the virtualenv later, run
 
 	source config/development/env/bin/activate
 
-to run a shell with important stuff imported
+to run a shell with the important stuff imported
 
 	make shell
 
