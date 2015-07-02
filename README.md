@@ -3,7 +3,7 @@
 Extension of the updated Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
 
 ### getting started
-first create a postgresql database called flask_boilerplate
+first create two postgresql databases called fboil and fboil_test
 
 then run
 
@@ -12,13 +12,13 @@ then run
 next you need to set these environment variables in config/env/bin/activate
 (set APP_SETTINGS to config.your_deployment_config_file on deployment)
 
-	export APP_SETTINGS = config.development
+	export APP_SETTINGS = "config.development"
 	export SECRET_KEY="really-long-good-random-key"
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
 	export MAIL_PASSWORD="p4ssw0rd"
 	
-then initialize the database
+then initialize the databases
 
 	make database
 
