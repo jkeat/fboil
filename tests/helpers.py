@@ -1,4 +1,3 @@
-import unittest
 from flask import url_for
 from flask.ext.testing import TestCase
 from flask.ext.login import current_user
