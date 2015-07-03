@@ -26,13 +26,17 @@ finally, run
 
 	make server
 
-to activate the virtualenv later, run
+to activate the virtualenv later
 
 	source config/development/env/bin/activate
 
 to run a shell with the important stuff imported
 
 	make shell
+
+to run tests
+
+	nosetests
 
 ### additions to flask-boilerplate
 + user accounts
