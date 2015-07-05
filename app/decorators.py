@@ -7,6 +7,8 @@ from flask.ext.login import current_user
 def confirmed_email_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
+        if current_user.is_anonymous:
+            return redirect(url_for("users.need_confirm_email"))
         if current_user.confirmed_email is False:
             return redirect(url_for("users.need_confirm_email"))
         return func(*args, **kwargs)
