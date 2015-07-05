@@ -22,4 +22,7 @@ shell:
 	python -i shell.py
 
 test: $(VENV)
-	. $(VENV)/bin/activate; py.test $(PYTEST_OPTIONS) tests/
+	source $(VENV)/bin/activate && nosetests
+
+coverage: $(VENV)
+	source $(VENV)/bin/activate && nosetests --with-coverage --cover-package=app
