@@ -149,21 +149,14 @@ def reset_password(token):
             abort(404)
         return render_template('users/forms/reset-password.html', form=form)
 
-
 # =============================
 # === non-routing functions ===
 # =============================
 
-# TODO: put these into another file,
-#       or gut functions into routing methods,
-#       or leave as is?
-
-
-# ------------------
-# email confirmation  # TODO: is used twice
-# ------------------
-
 def email_user_confirmation_link(user):
+    """
+    Used initially on signup and when user resends confirm email.
+    """
     token = serializer.serialize_data(user.id)
     confirmation_link = url_for('users.confirm_user',
                                 token=token, _external=True)
