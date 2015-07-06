@@ -4,7 +4,7 @@ DEBUG = True
 SECRET_KEY = os.environ['SECRET_KEY']
 SECURITY_PASSWORD_SALT = os.environ['SECURITY_PASSWORD_SALT']
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/fboil_test'
+SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/fboil'
 HOST = 'localhost'
 PORT = int(os.environ.get('PORT', 5000))
 
