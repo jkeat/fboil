@@ -62,3 +62,14 @@ class UserLogoutTests(BaseUserTestCase):
             self.assertIsNotNone(current_user.get_id())
             self.logout_user()
             self.assertIsNone(current_user.get_id())
+
+
+class ConfirmEmailViewTests(BaseUserTestCase):
+    def test_prevent_anonymous_user_viewing_confirm_email_page(self):
+        response = self.client.get(url_for('users.need_confirm_email'))
+        self.assert_redirects(response, url_for('users.login'))
+
+    def test_can_logged_in_user_view_confirmed_email_page(self):
+        self.login_user()
+        response = self.client.get(url_for('users.need_confirm_email'))
+        self.assert200(response)

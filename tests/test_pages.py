@@ -1,5 +1,5 @@
 from flask import url_for
-from .helpers import BaseTestCase
+from .helpers import BaseTestCase, BaseUserTestCase
 
 
 class PageViewsTests(BaseTestCase):
@@ -11,10 +11,27 @@ class PageViewsTests(BaseTestCase):
         response = self.client.get(url_for('pages.home'))
         self.assert200(response, message="Home page didn't load")
 
-    def test_secret_page_load(self):
+    def test_secret_page_anonymous_user_unconfirmed_email(self):
     	"""
     	login_required is disabled on TESTING = True so it doesn't redirect to
     	/login like it would for a logged out user
     	"""
     	response = self.client.get(url_for('pages.secret'))
     	self.assertRedirects(response, url_for('users.need_confirm_email'))
+
+
+class PageViewsLoggedInTests(BaseUserTestCase):
+	def test_secret_page_logged_in_unconfirmed_email(self):
+		with self.client:
+			self.login_user()
+			response = self.client.get(url_for('pages.secret'))
+	    	self.assertRedirects(response, url_for('users.need_confirm_email'))
+
+
+class PageViewsConfirmedEmailTests(BaseUserTestCase):
+	def test_secret_page_confirmed_email(self):
+		with self.client:
+			self.user.confirm_email()
+			self.login_user()
+			response = self.client.get(url_for('pages.secret'))
+			self.assert200(response)
