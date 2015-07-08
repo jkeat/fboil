@@ -9,6 +9,7 @@ def confirmed_email_required(func):
     def decorated_function(*args, **kwargs):
         if current_user.is_anonymous():
             # Will only happen during tests
+            # where login_required is waved
             return redirect(url_for("users.need_confirm_email"))
         if current_user.confirmed_email is False:
             return redirect(url_for("users.need_confirm_email"))
@@ -21,7 +22,8 @@ def unconfirmed_email_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
         if current_user.is_anonymous():
-            # Will only happen during tests
+            # Will only happen during tests,
+            # where login_required is waved
             return redirect(url_for("users.login"))
         if current_user.confirmed_email is True:
             flash("Your email has already been confirmed.")
