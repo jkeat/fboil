@@ -9,7 +9,7 @@ then run
 
 	make install
 
-next you need to set these environment variables in config/env/bin/activate
+next you need to set these environment variables in config/development/env/bin/activate
 (set APP_SETTINGS to config.your_deployment_config_file on deployment)
 
 	export APP_SETTINGS="config.development"
