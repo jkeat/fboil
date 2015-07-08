@@ -15,13 +15,6 @@ from ..utils import send_email
 users_blueprint = Blueprint('users', __name__)
 
 
-@users_blueprint.route('/confirm-email')
-@login_required
-@unconfirmed_email_required
-def need_confirm_email():
-    return render_template('users/confirm-email.html')
-
-
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
@@ -89,6 +82,13 @@ def resend_confirmation_email():
     email_user_confirmation_link(current_user)
     flash("Resent confirmation email.")
     return redirect(url_for("pages.home"))
+
+
+@users_blueprint.route('/confirm-email')
+@login_required
+@unconfirmed_email_required
+def need_confirm_email():
+    return render_template('users/confirm-email.html')
 
 
 @users_blueprint.route('/forgot', methods=['GET', 'POST'])
