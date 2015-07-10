@@ -5,7 +5,7 @@ import os
 from app import create_app
 from app.extensions import db
 
-app = create_app('config.development')
+app = create_app(os.environ['APP_SETTINGS'])
 
 migrate = Migrate(app, db)
 manager = Manager(app)
