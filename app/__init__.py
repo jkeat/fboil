@@ -6,6 +6,10 @@ from .models import *
 from .controllers.pages import pages_blueprint
 from .controllers.users import users_blueprint
 
+import sys
+import logging
+
+
 BLUEPRINTS = (
     pages_blueprint,
     users_blueprint,
@@ -21,6 +25,9 @@ def create_app(config_filename):
 
     configure_blueprints(app, BLUEPRINTS)
     configure_extensions(app)
+
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
 
     return app
 
