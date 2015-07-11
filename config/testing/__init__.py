@@ -14,12 +14,10 @@ MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
 
-# mail authentication
+# mail account
 MAIL_USERNAME = os.environ['MAIL_USERNAME']
 MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
-
-# mail accounts
-MAIL_DEFAULT_SENDER = "company.email@example.com"
+MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
 
 # changes from development config settings
 TESTING = True
