@@ -39,8 +39,8 @@ to run tests
 
 to get set up on heroku
 
-	heroku create the-next-big-flop (your app name)
-	heroku config:set APP_SETTINGS="config.production" SECRET_KEY="not-the-same-as-your-dev-key" SECURITY_PASSWORD_SALT="also-not-the-same-as-your-dev-key" MAIL_USERNAME="username99" MAIL_PASSWORD="p4ssw0rd"
+	heroku create the-next-big-failure
+	heroku config:set APP_SETTINGS=config.production SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-key MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd
 	heroku addons:create heroku-postgresql:hobby-dev
 	git push heroku master
 	heroku run python manage.py db upgrade
