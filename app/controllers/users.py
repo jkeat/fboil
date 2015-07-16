@@ -15,6 +15,65 @@ from ..utils import send_email
 users_blueprint = Blueprint('users', __name__)
 
 
+
+# =============================================
+# =============================================
+
+import os
+
+from flask import session
+
+from flask_oauth import OAuth
+oauth = OAuth()
+
+twitter = oauth.remote_app('twitter',
+    base_url='https://api.twitter.com/1/',
+    request_token_url='https://api.twitter.com/oauth/request_token',
+    access_token_url='https://api.twitter.com/oauth/access_token',
+    authorize_url='https://api.twitter.com/oauth/authenticate',
+    consumer_key=os.environ["TWITTER_CONSUMER_KEY"],
+    consumer_secret=os.environ["TWITTER_CONSUMER_SECRET"]
+)
+
+@twitter.tokengetter
+def get_twitter_token(token=None):
+    return session.get('twitter_token')
+
+
+@users_blueprint.route('/twitter-login')
+def twitter_login():
+    if session.has_key('twitter_token'):  # check if 'already logged in'
+        del session['twitter_token']
+    return twitter.authorize()  # (redirect url is hardcoded online b/c
+                                # giving a localhost url wasn't working)
+
+    # return twitter.authorize(callback=url_for('users.oauth_authorized',
+    #     next=request.args.get('next') or request.referrer or None))
+
+
+@users_blueprint.route('/oauth-authorized')
+@twitter.authorized_handler
+def oauth_authorized(resp):
+    next_url = request.args.get('next') or url_for('pages.home')
+    if resp is None:
+        flash(u'You denied the request to sign in.')
+        return redirect(next_url)
+
+    session['twitter_token'] = (
+        resp['oauth_token'],
+        resp['oauth_token_secret']
+    )
+    session['twitter_user'] = resp['screen_name']
+
+    flash('You were signed in as %s' % resp['screen_name'])
+    return redirect(next_url)
+
+
+# =============================================
+# =============================================
+
+
+
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
