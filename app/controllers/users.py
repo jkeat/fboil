@@ -1,3 +1,4 @@
+import datetime
 from flask import (render_template, Blueprint, request, abort,
                    redirect, url_for, flash)
 from flask.ext.login import (login_user, logout_user, login_required,
@@ -19,15 +20,18 @@ users_blueprint = Blueprint('users', __name__)
 # =============================================
 # =============================================
 
+from ..forms.users import SetUsernameForm
+from ..extensions import db
+
 import os
 
 from flask import session
 
-from flask_oauth import OAuth
+from flask_oauthlib.client import OAuth
 oauth = OAuth()
 
 twitter = oauth.remote_app('twitter',
-    base_url='https://api.twitter.com/1/',
+    base_url='https://api.twitter.com/1.1/',
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authenticate',
@@ -55,6 +59,7 @@ def twitter_login():
 @twitter.authorized_handler
 def oauth_authorized(resp):
     next_url = request.args.get('next') or url_for('pages.home')
+
     if resp is None:
         flash(u'You denied the request to sign in.')
         return redirect(next_url)
@@ -63,10 +68,50 @@ def oauth_authorized(resp):
         resp['oauth_token'],
         resp['oauth_token_secret']
     )
-    session['twitter_user'] = resp['screen_name']
 
-    flash('You were signed in as %s' % resp['screen_name'])
-    return redirect(next_url)
+    twitter_username = resp['screen_name']
+    session['twitter_user'] = twitter_username
+
+    twitter_user_response = twitter.get('users/show.json', data={"screen_name": twitter_username})
+    twitter_user_data = twitter_user_response.data
+
+    this_user = User.query.filter_by(twitter_username=twitter_username).first()
+    if this_user:
+        login_user(this_user)
+        flash('You were signed in as %s' % twitter_username)
+        flash(twitter_user_data['name'] + "!")
+        return redirect(next_url)
+    else:
+        new_user_username = User.make_unique_username(twitter_username)
+        new_user = User(username=new_user_username, twitter_username=twitter_username)
+        new_user.confirmed_email = True
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        return redirect(url_for('users.set_username', next=next_url))
+
+
+@users_blueprint.route('/set-username', methods=['GET', 'POST'])
+@login_required
+def set_username():
+    # User gets 15 minutes after signup to change username
+    if (datetime.datetime.now() - current_user.created_on) > datetime.timedelta(0, 900, 0):
+        flash("It's too late for that! You'll forever have to be known as {0}".format(current_user.username))
+        return redirect(url_for('pages.home'))
+
+    form = SetUsernameForm()
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('users/forms/set-username.html', form=form)
+        else:
+            form.set_username(current_user.id)
+            next_url = request.args.get('next') or url_for('pages.home')
+            return redirect(next_url)
+
+    elif request.method == 'GET':
+        return render_template('users/forms/set-username.html', form=form)
+
 
 
 # =============================================
@@ -77,7 +122,7 @@ def oauth_authorized(resp):
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
-    form = LoginForm(request.form)
+    form = LoginForm(request.form)  # TODO: what? why? huh?
 
     if request.method == 'POST':
         if not form.validate():

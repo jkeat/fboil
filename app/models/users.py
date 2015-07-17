@@ -1,6 +1,6 @@
 import os
 from werkzeug import generate_password_hash, check_password_hash
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from ..extensions import db
 
 
@@ -9,17 +9,27 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+
     email = db.Column(db.String(255), unique=True)
-    passhash = db.Column(db.String(255))
     confirmed_email = db.Column(db.Boolean(), default=False)
 
-    def __init__(self, username, email, password):
-        self.username = username.lower()
-        self.email = email.lower()
-        self.set_password(password)
+    passhash = db.Column(db.String(255))
+
+    twitter_username = db.Column(db.String(255), unique=True)
+
+    def __init__(self, username=None, email=None, password=None, twitter_username=None):
+        if username:
+            self.username = username
+        if email:
+            self.email = email
+        if password:
+            self.set_password(password)
+        if twitter_username:
+            self.twitter_username = twitter_username
 
     def __repr__(self):
-        return '<User {0}>'.format(self.username)
+        return '<User {0} ({1})>'.format(self.username, self.id)
 
     def set_password(self, password):
         self.passhash = generate_password_hash(password)
@@ -48,5 +58,28 @@ class User(db.Model):
 
     @classmethod
     def get_by_email_or_username(cls, identification):
-        return cls.query.filter(or_(cls.username == identification,
-                                    cls.email == identification)).first()
+        identification = identification.lower()
+        return cls.query.filter(or_(func.lower(cls.username) == identification,
+                                    func.lower(cls.email) == identification)).first()
+
+    @classmethod
+    def is_username_taken(cls, username):
+        username = username.lower()
+        return (cls.query.filter(func.lower(cls.username) == username).first() is not None)
+
+    @classmethod
+    def is_email_taken(cls, email):
+        email = email.lower()
+        return (cls.query.filter(func.lower(cls.email) == email).first() is not None)
+
+    @classmethod
+    def make_unique_username(cls, starter):
+        if not cls.is_username_taken(starter):
+            return starter
+        else:
+            number_addon = 1
+            while True:
+                new_username = "{0}{1}".format(starter, number_addon)
+                if not cls.is_username_taken(new_username):
+                    return new_username
+                number_addon += 1

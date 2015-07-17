@@ -5,6 +5,34 @@ from ..models.users import User
 from ..extensions import db
 
 
+
+# =============================================
+# =============================================
+
+
+class SetUsernameForm(Form):
+    username = TextField(
+        'Username', validators=[DataRequired(), Length(
+            min=3, max=25,
+            message="Username must be between 3 and 25 characters.")]
+    )
+
+    def validate_username(self, field):
+        if User.is_username_taken(field.data):
+            raise ValidationError("That username is already taken")
+
+    def set_username(self, user_id):
+        user = User.query.get(user_id)
+        user.username = self.username.data
+        db.session.add(user)
+        db.session.commit()
+
+
+# =============================================
+# =============================================
+
+
+
 class RegisterForm(Form):
     username = TextField(
         'Username', validators=[DataRequired(), Length(
@@ -26,18 +54,17 @@ class RegisterForm(Form):
     )
 
     def validate_username(self, field):
-        if User.query.filter_by(
-                username=field.data.lower()).first() is not None:
+        if User.is_username_taken(field.data):
             raise ValidationError("That username is already taken")
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data.lower()).first() is not None:
+        if User.is_email_taken(field.data):
             raise ValidationError("That email is already taken")
 
     def create_user(self):
-        new_user = User(username=self.username.data.lower(),
-                        email=self.email.data.lower(),
-                        password=self.password.data.lower())
+        new_user = User(username=self.username.data,
+                        email=self.email.data,
+                        password=self.password.data)
         db.session.add(new_user)
         db.session.commit()
         return new_user
@@ -58,7 +85,7 @@ class LoginForm(Form):
         return True
 
     def get_user(self):
-        user = User.get_by_email_or_username(self.username.data.lower())
+        user = User.get_by_email_or_username(self.username.data)
         if user:
             if user.check_password(self.password.data):
                 return user
@@ -70,7 +97,7 @@ class ForgotPasswordForm(Form):
     )
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data.lower()).first() is None:
+        if not User.is_email_taken(field.data):
             raise ValidationError("Email not found. Try again!")
 
 
