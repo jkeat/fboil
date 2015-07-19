@@ -45,6 +45,7 @@ def get_twitter_token(token=None):
 
 
 @users_blueprint.route('/twitter-login')
+@logout_required
 def twitter_login():
     if session.has_key('twitter_token'):  # check if 'already logged in'
         del session['twitter_token']
@@ -83,7 +84,7 @@ def oauth_authorized(resp):
         return redirect(next_url)
     else:
         new_user_username = User.make_unique_username(twitter_username)
-        new_user = User(username=new_user_username, twitter_username=twitter_username)
+        new_user = User(username=new_user_username, twitter_username=twitter_username, is_oauth_user=True)
         new_user.confirmed_email = True
         db.session.add(new_user)
         db.session.commit()
@@ -94,9 +95,12 @@ def oauth_authorized(resp):
 @users_blueprint.route('/set-username', methods=['GET', 'POST'])
 @login_required
 def set_username():
-    # User gets 15 minutes after signup to change username
+    if not current_user.is_oauth_user:
+        return redirect(url_for('pages.home'))
+
+    # User gets 15 minutes after oauth signup to change username
     if (datetime.datetime.now() - current_user.created_on) > datetime.timedelta(0, 900, 0):
-        flash("It's too late for that! You'll forever have to be known as {0}".format(current_user.username))
+        flash("It's too late for that, sorry! You're stuck with the username {0}".format(current_user.username))
         return redirect(url_for('pages.home'))
 
     form = SetUsernameForm()
