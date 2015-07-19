@@ -7,7 +7,7 @@ from app.extensions import serializer
 
 class UserModelTests(BaseUserTestCase):
     def test_user_to_string(self):
-        self.assertEqual(str(self.user), "<User {0}>".format(self.USER_USERNAME))
+        self.assertEqual(str(self.user), "<User {0} ({1})>".format(self.USER_USERNAME, self.user.id))
 
     def test_confirm_email(self):
         self.assertFalse(self.user.confirmed_email)
