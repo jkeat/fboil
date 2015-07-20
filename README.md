@@ -11,12 +11,14 @@ then run
 
 next you need to set these environment variables in config/development/env/bin/activate
 
-	export APP_SETTINGS="config.development"
+	export APP_SETTINGS="config.DevelopmentConfig"
 	export SECRET_KEY="really-long-good-random-key"
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
 	export MAIL_PASSWORD="p4ssw0rd"
 	export MAIL_DEFAULT_SENDER="username99@gmail.com"
+	export TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key"
+	export TWITTER_CONSUMER_KEY="your-twitter-app-secret-api-key"
 	
 then initialize the databases
 
@@ -41,7 +43,7 @@ to run tests
 to get set up on heroku
 
 	heroku create the-next-big-failure
-	heroku config:set APP_SETTINGS=config.production SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-key MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd
+	heroku config:set APP_SETTINGS=config.ProductionConfig SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-key MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key" TWITTER_CONSUMER_KEY="your-twitter-app-secret-api-key"
 	heroku addons:create heroku-postgresql:hobby-dev
 	git push heroku master
 	heroku run python manage.py db upgrade
