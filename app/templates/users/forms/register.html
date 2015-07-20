@@ -1,15 +1,22 @@
 {% extends 'layouts/form.html' %}
-{% block title %}Register{% endblock %}
+{% block title %}Sign up{% endblock %}
 {% block content %}
   <form method="post" class="form">
-    <h3 class="form-heading">Register <a href="/" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+    <h3 class="form-heading">Sign up <a href="/" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+
+    <a class="twitter-btn btn btn-default btn-lg btn-block" href="{{ url_for('users.twitter_login') }}"><i class="fa fa-twitter"></i> Sign up with Twitter</a>
+
+    <div class="word-divider"><div class="word-divider-divider"></div><div class="word-divider-word">or</div></div>
+
     {{ form.hidden_tag() }}
     {{ form.username(class_ = 'form-control first-input', placeholder = form.username.label.text, required = true, autofocus = true) }}
     {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
     {{ form.password(class_ = 'form-control', placeholder = form.password.label.text, required = true) }}
     {{ form.confirm(class_ = 'form-control last-input', placeholder = form.confirm.label.text, required = true) }}
-    <p>Already registered? <a href="{{ url_for('users.login') }}">Login</a></p>
-    <input type="submit" value="Register" class="btn btn-primary btn-lg btn-block">
-    <br>
+    <input type="submit" value="Sign up" class="btn btn-primary btn-lg btn-block">
+
+    <div class="form-footer">
+        <p>Already have an account? <a href="{{ url_for('users.login') }}">Log in</a></p>
+    </div>
   </form>
 {% endblock %}
