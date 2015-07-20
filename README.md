@@ -9,7 +9,7 @@ then run
 
 	make install
 
-next you need to set these environment variables in config/development/env/bin/activate
+next you need to set these environment variables in config/env/bin/activate
 
 	export APP_SETTINGS="config.DevelopmentConfig"
 	export SECRET_KEY="really-long-good-random-key"
@@ -18,7 +18,7 @@ next you need to set these environment variables in config/development/env/bin/a
 	export MAIL_PASSWORD="p4ssw0rd"
 	export MAIL_DEFAULT_SENDER="username99@gmail.com"
 	export TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key"
-	export TWITTER_CONSUMER_KEY="your-twitter-app-secret-api-key"
+	export TWITTER_CONSUMER_SECRET="your-twitter-app-secret-api-key"
 	
 then initialize the databases
 
