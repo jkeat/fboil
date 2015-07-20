@@ -54,12 +54,11 @@ to get set up on heroku
 + email confirmation
 + password reset
 + account related decorators
-+ 100% testing coverage
++ good testing coverage
++ Twitter OAuth sign in
 + Heroku-friendly
 + testing & production configs
 
 
 ### TODO:
-+ config base class
 + README instructions for oauth setup
-+ 
