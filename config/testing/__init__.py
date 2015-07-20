@@ -23,3 +23,7 @@ MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
 TESTING = True
 SQLALCHEMY_DATABASE_URI = "postgresql://localhost/fboil_test"
 WTF_CSRF_ENABLED = False
+
+# misc
+SECONDS_TO_CHANGE_USERNAME = 900  # == 15 minutes for oauth user to change username
+

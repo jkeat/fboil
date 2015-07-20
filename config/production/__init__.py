@@ -15,3 +15,6 @@ MAIL_USE_SSL = True
 MAIL_USERNAME = os.environ['MAIL_USERNAME']
 MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
 MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
+
+# misc
+SECONDS_TO_CHANGE_USERNAME = 900  # == 15 minutes for oauth user to change username

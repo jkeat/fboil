@@ -14,9 +14,11 @@ MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
 
-# mail authentication
+# mail account
 MAIL_USERNAME = os.environ['MAIL_USERNAME']
 MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
+MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
 
-# mail accounts
-MAIL_DEFAULT_SENDER = "company.email@example.com"
+# misc
+SECONDS_TO_CHANGE_USERNAME = 900  # == 15 minutes for oauth user to change username
+
