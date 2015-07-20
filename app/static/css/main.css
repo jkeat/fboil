@@ -33,4 +33,15 @@ a {
  * Various other styles
  ****************************************************************************/
 
+ .twitter-btn {
+ 	background: #55acee;
+ 	color: #fff;
+ 	text-shadow: none;
+ 	border: none;
+ }
+ .twitter-btn:hover, .twitter-btn:active, .twitter-btn:focus {
+ 	background: #449bdd;
+ 	color: #fff;
+ }
+
 /* Various other styles end */
