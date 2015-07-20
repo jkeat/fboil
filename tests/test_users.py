@@ -1,3 +1,4 @@
+import datetime
 from flask import url_for
 from flask.ext.login import current_user
 from app import User
@@ -13,6 +14,16 @@ class UserModelTests(BaseUserTestCase):
         self.assertFalse(self.user.confirmed_email)
         self.user.confirm_email()
         self.assertTrue(self.user.confirmed_email)
+
+    def test_make_unique_username_need_to_modify(self):
+        self.create_user(username=(self.USER_USERNAME + "1"))
+        self.create_user(username=(self.USER_USERNAME + "2"))
+        new_username = User.make_unique_username(self.USER_USERNAME)
+        self.assertEqual(new_username, (self.USER_USERNAME + "3"))
+
+    def test_make_unique_username_do_not_need_to_modify(self):
+        new_username = User.make_unique_username("pinkgrenade4life")
+        self.assertEqual(new_username, "pinkgrenade4life")
 
 
 class UserViewsTests(BaseTestCase):
@@ -240,3 +251,48 @@ class ResetPasswordViewTests(BaseUserTestCase):
         self.assertTrue(self.user.check_password(self.USER_PASSWORD))
         self.assertFalse(self.user.check_password(NEW_PASSWORD))
         self.assert404(response)
+
+
+class SetUsernameViewTests(BaseUserTestCase):
+    OAUTH_USER_USERNAME = "ealderson"
+    OAUTH_USER_PASSWORD = "mrsrobot"
+    OAUTH_USER_NEW_USERNAME = "mrrobotisqwerty"
+
+    def test_change_username_page_load(self):
+        user = self.create_user(username=self.OAUTH_USER_USERNAME,
+                                password=self.OAUTH_USER_PASSWORD,
+                                is_oauth_user=True)
+        self.login_user(username=self.OAUTH_USER_USERNAME, password=self.OAUTH_USER_PASSWORD)
+        response = self.client.get(url_for('users.set_username'))
+        self.assert_200(response)
+
+    def test_change_username(self):
+        user = self.create_user(username=self.OAUTH_USER_USERNAME,
+                                password=self.OAUTH_USER_PASSWORD,
+                                is_oauth_user=True)
+        self.login_user(username=self.OAUTH_USER_USERNAME, password=self.OAUTH_USER_PASSWORD)
+        response = self.client.post(url_for('users.set_username'),
+                                    data={"username": self.OAUTH_USER_NEW_USERNAME})
+        self.assertEqual(user.username, self.OAUTH_USER_NEW_USERNAME)
+
+    def test_prevent_change_username_if_not_oauth(self):
+        user = self.create_user(username=self.OAUTH_USER_USERNAME,
+                                password=self.OAUTH_USER_PASSWORD)
+        self.login_user(username=self.OAUTH_USER_USERNAME, password=self.OAUTH_USER_PASSWORD)
+        response = self.client.post(url_for('users.set_username'),
+                                    data={"username": self.OAUTH_USER_NEW_USERNAME})
+        self.assertEqual(user.username, self.OAUTH_USER_USERNAME)
+
+    def test_prevent_change_username_after_too_much_time_passed(self):
+        seconds_to_change = self.app.config['SECONDS_TO_CHANGE_USERNAME']
+        long_time_ago = datetime.datetime.now() - datetime.timedelta(0, seconds_to_change*2, 0)
+        user = self.create_user(username=self.OAUTH_USER_USERNAME,
+                                password=self.OAUTH_USER_PASSWORD,
+                                created_on=long_time_ago)
+        print datetime.datetime.now()
+        print user.created_on
+
+
+
+
+
