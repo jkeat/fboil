@@ -50,12 +50,19 @@ def twitter_login():
     if session.has_key('twitter_token'):  # check if 'already logged in'
         del session['twitter_token']
 
-    if os.environ.get('APP_SETTINGS') == "config.ProductionConfig":
-        return twitter.authorize(callback=url_for('users.oauth_authorized',
-            next=request.args.get('next')))
-    else:
-        return twitter.authorize()  # (redirect url is hardcoded online b/c
-                                    # giving a localhost url wasn't working)
+    # if os.environ.get('APP_SETTINGS') == "config.ProductionConfig":
+    #     return twitter.authorize(callback=url_for('users.oauth_authorized',
+    #         next=request.args.get('next')))
+    # else:
+    #     return twitter.authorize()
+
+    return twitter.authorize()  # That ^ isn't working. Can't get Twitter
+                                # to recognize it's being given a callback.
+                                # The callback is just hardcoded on apps.twitter.com.
+                                # (One app for dev w/ 127.0.0.1:5000/oauth-authorized
+                                # as the callback, one for production w/
+                                # https://fboil.herokuapp.com/oauth-authorized as the
+                                # callback. Set config vars on Heroku to dif't API keys.)
 
 
 @users_blueprint.route('/oauth-authorized')
