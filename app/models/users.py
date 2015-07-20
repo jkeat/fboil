@@ -19,17 +19,10 @@ class User(db.Model):
     is_oauth_user = db.Column(db.Boolean(), default=False)
     twitter_username = db.Column(db.String(255), unique=True)
 
-    def __init__(self, username=None, email=None, password=None, twitter_username=None, is_oauth_user=False):
-        if username:
-            self.username = username
-        if email:
-            self.email = email
+    def __init__(self, password=None, **kwargs):
+        super(User, self).__init__(**kwargs)
         if password:
             self.set_password(password)
-        if twitter_username:
-            self.twitter_username = twitter_username
-        if is_oauth_user:
-            self.is_oauth_user = True
 
     def __repr__(self):
         return '<User {0} ({1})>'.format(self.username, self.id)
