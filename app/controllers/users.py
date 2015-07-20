@@ -49,11 +49,13 @@ def get_twitter_token(token=None):
 def twitter_login():
     if session.has_key('twitter_token'):  # check if 'already logged in'
         del session['twitter_token']
-    return twitter.authorize()  # (redirect url is hardcoded online b/c
-                                # giving a localhost url wasn't working)
 
-    # return twitter.authorize(callback=url_for('users.oauth_authorized',
-    #     next=request.args.get('next') or request.referrer or None))
+    if current_app.config.get('APP_SETTINGS') == "config.ProductionConfig":
+        return twitter.authorize(callback=url_for('users.oauth_authorized',
+            next=request.args.get('next') or request.referrer or None))
+    else:
+        return twitter.authorize()  # (redirect url is hardcoded online b/c
+                                    # giving a localhost url wasn't working)
 
 
 @users_blueprint.route('/oauth-authorized')
