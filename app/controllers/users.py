@@ -50,7 +50,7 @@ def twitter_login():
     if session.has_key('twitter_token'):  # check if 'already logged in'
         del session['twitter_token']
 
-    if current_app.config.get('APP_SETTINGS') == "config.ProductionConfig":
+    if os.environ.get('APP_SETTINGS') == "config.ProductionConfig":
         return twitter.authorize(callback=url_for('users.oauth_authorized',
             next=request.args.get('next') or request.referrer or None))
     else:
