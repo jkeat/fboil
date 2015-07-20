@@ -44,3 +44,21 @@ body {
 .form-only-page .back-home {
   margin-top: 10px;
 }
+
+.form-only-page .word-divider {
+  text-align: center;
+  padding: 20px 0 10px 0;
+}
+.form-only-page .word-divider-divider {
+  border-bottom: solid 1px #000;
+  margin-bottom: -14px;
+}
+.form-only-page .word-divider-word {
+  display: inline-block;
+  background-color: #eee;
+  padding: 2px 7px;
+}
+
+.form-only-page .form-footer {
+  margin-top: 10px;
+}
