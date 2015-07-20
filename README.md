@@ -16,6 +16,7 @@ next you need to set these environment variables in config/development/env/bin/a
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
 	export MAIL_PASSWORD="p4ssw0rd"
+	export MAIL_DEFAULT_SENDER="username99@gmail.com"
 	
 then initialize the databases
 
@@ -54,3 +55,9 @@ to get set up on heroku
 + 100% testing coverage
 + Heroku-friendly
 + testing & production configs
+
+
+### TODO:
++ config base class
++ README instructions for oauth setup
++ 
