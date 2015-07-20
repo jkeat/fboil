@@ -52,7 +52,7 @@ def twitter_login():
 
     if os.environ.get('APP_SETTINGS') == "config.ProductionConfig":
         return twitter.authorize(callback=url_for('users.oauth_authorized',
-            next=request.args.get('next') or request.referrer or None))
+            next=request.args.get('next')))
     else:
         return twitter.authorize()  # (redirect url is hardcoded online b/c
                                     # giving a localhost url wasn't working)
