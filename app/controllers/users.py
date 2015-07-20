@@ -1,6 +1,6 @@
 import datetime
 from flask import (render_template, Blueprint, request, abort,
-                   redirect, url_for, flash)
+                   redirect, url_for, flash, current_app)
 from flask.ext.login import (login_user, logout_user, login_required,
                              current_user)
 from itsdangerous import BadSignature
@@ -98,8 +98,9 @@ def set_username():
     if not current_user.is_oauth_user:
         return redirect(url_for('pages.home'))
 
-    # User gets 15 minutes after oauth signup to change username
-    if (datetime.datetime.now() - current_user.created_on) > datetime.timedelta(0, 900, 0):
+    SECONDS_TO_CHANGE = current_app.config['SECONDS_TO_CHANGE_USERNAME']
+    # User gets certain amoun of time after oauth signup to change username
+    if (datetime.datetime.now() - current_user.created_on) > datetime.timedelta(0, SECONDS_TO_CHANGE, 0):
         flash("It's too late for that, sorry! You're stuck with the username {0}".format(current_user.username))
         return redirect(url_for('pages.home'))
 
