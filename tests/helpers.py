@@ -7,7 +7,7 @@ from app.extensions import db
 
 class BaseTestCase(TestCase):
     def create_app(self):
-        app = create_app('config.testing')
+        app = create_app('config.TestingConfig')
         return app
 
     def setUp(self):

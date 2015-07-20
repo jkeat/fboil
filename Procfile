@@ -1,1 +1,1 @@
-web: gunicorn app:create_app\(\"config.production\"\)
+web: gunicorn app:create_app\(\"config.ProductionConfig\"\)

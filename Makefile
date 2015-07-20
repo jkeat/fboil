@@ -1,10 +1,9 @@
 .PHONY: virtualenv
 
-ENV = development
-VENV = config/$(ENV)/env
+VENV = config/env
 export PYTHONPATH := $(PYTHONPATH):.
 
-config/%/env: config/%/requirements.txt
+config/env: requirements.txt
 	virtualenv $@
 	. $@/bin/activate && pip install --requirement $<\
 
