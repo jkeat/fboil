@@ -3,12 +3,19 @@ language: python
 python:
   - "2.7"
 
+addons:
+  postgresql: "9.3"
+
 # environment variables
 env:
   - APP_SETTINGS=config.TestingConfig
 
 # command to install dependencies
 install: "pip install -r requirements.txt"
+
+# create the database
+before_script:
+  - psql -c 'create database fboil_test;' -U postgres
 
 # command to run tests
 script: nosetests
