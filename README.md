@@ -30,7 +30,7 @@ finally, run
 
 to activate the virtualenv later
 
-	source config/development/env/bin/activate
+	source config/env/bin/activate
 
 to run a shell with the important stuff imported
 
