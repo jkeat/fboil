@@ -6,35 +6,6 @@ from ..models.users import User
 from ..extensions import db
 
 
-
-# =============================================
-# =============================================
-
-
-class SetUsernameForm(Form):
-    username = TextField(
-        'New username', validators=[DataRequired(), Length(
-            min=3, max=25,
-            message="Username must be between 3 and 25 characters.")]
-    )
-
-    def validate_username(self, field):
-        if field.data != current_user.username and User.is_username_taken(field.data):
-            raise ValidationError("That username is already taken")
-
-    def set_username(self, user_id):
-        if not current_user.username == self.username.data:
-            user = User.query.get(user_id)
-            user.username = self.username.data
-            db.session.add(user)
-            db.session.commit()
-
-
-# =============================================
-# =============================================
-
-
-
 class RegisterForm(Form):
     username = TextField(
         'Username', validators=[DataRequired(), Length(
@@ -119,3 +90,22 @@ class ResetPasswordForm(Form):
         user.set_password(self.password.data)
         db.session.add(user)
         db.session.commit()
+
+
+class SetUsernameForm(Form):
+    username = TextField(
+        'New username', validators=[DataRequired(), Length(
+            min=3, max=25,
+            message="Username must be between 3 and 25 characters.")]
+    )
+
+    def validate_username(self, field):
+        if field.data != current_user.username and User.is_username_taken(field.data):
+            raise ValidationError("That username is already taken")
+
+    def set_username(self, user_id):
+        if not current_user.username == self.username.data:
+            user = User.query.get(user_id)
+            user.username = self.username.data
+            db.session.add(user)
+            db.session.commit()
