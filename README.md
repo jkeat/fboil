@@ -61,4 +61,6 @@ to get set up on heroku
 
 
 ### TODO:
-+ README instructions for oauth setup
++ README instructions for twitter setup
++ format all the twitter stuff
+

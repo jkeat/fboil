@@ -136,7 +136,7 @@ def set_username():
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
-    form = LoginForm(request.form)  # TODO: what? why? huh?
+    form = LoginForm()
 
     if request.method == 'POST':
         if not form.validate():
