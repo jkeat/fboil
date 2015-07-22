@@ -4,6 +4,7 @@ Extension of the updated version of the Flask-Boilerplate project found here: ht
 
 ### getting started
 first create two postgresql databases called fboil and fboil_test
+go make a new twitter app: https://apps.twitter.com/
 
 then run
 
@@ -61,6 +62,5 @@ to get set up on heroku
 
 
 ### TODO:
-+ README instructions for twitter setup
 + move wallet model to sep't file
 
