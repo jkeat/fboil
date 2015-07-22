@@ -10,7 +10,7 @@ from ..forms.users import (RegisterForm, LoginForm, ForgotPasswordForm,
 from ..models.users import User
 from ..decorators import (confirmed_email_required,
                           unconfirmed_email_required, logout_required)
-from ..utils import send_email
+from ..utils import send_email, email_user_confirmation_link
 
 
 users_blueprint = Blueprint('users', __name__)
@@ -238,15 +238,15 @@ def set_username():
 # === non-routing functions ===
 # =============================
 
-def email_user_confirmation_link(user):
-    """
-    Used initially on signup and when user resends confirm email.
-    """
-    token = serializer.serialize_data(user.id)
-    confirmation_link = url_for('users.confirm_user',
-                                token=token, _external=True)
+# def email_user_confirmation_link(user):
+#     """
+#     Used initially on signup and when user resends confirm email.
+#     """
+#     token = serializer.serialize_data(user.id)
+#     confirmation_link = url_for('users.confirm_user',
+#                                 token=token, _external=True)
 
-    subject = "Please confirm your email address"
-    html = render_template('users/emails/confirm.html',
-                           confirmation_link=confirmation_link)
-    send_email(user.email, subject, html)
+#     subject = "Please confirm your email address"
+#     html = render_template('users/emails/confirm.html',
+#                            confirmation_link=confirmation_link)
+#     send_email(user.email, subject, html)
