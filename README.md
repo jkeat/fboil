@@ -63,4 +63,5 @@ to get set up on heroku
 ### TODO:
 + README instructions for twitter setup
 + format all the twitter stuff
++ move wallet model to sep't file
 
