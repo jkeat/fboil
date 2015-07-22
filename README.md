@@ -62,5 +62,5 @@ to get set up on heroku
 
 
 ### TODO:
-+ move wallet model to sep't file
++ nothing.
 
