@@ -2,15 +2,16 @@
 
 Extension of the updated version of the Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
 
-### getting started
-first create two postgresql databases called fboil and fboil_test
-go make a new twitter app: https://apps.twitter.com/
+### Getting started
+First create two postgresql databases called fboil and fboil_test
+
+and go make a new twitter app: https://apps.twitter.com/
 
 then run
 
 	make install
 
-next you need to set these environment variables in config/env/bin/activate
+next you need to set these environment variables in env/bin/activate
 
 	export APP_SETTINGS="config.DevelopmentConfig"
 	export SECRET_KEY="really-long-good-random-key"
@@ -20,6 +21,10 @@ next you need to set these environment variables in config/env/bin/activate
 	export MAIL_DEFAULT_SENDER="username99@gmail.com"
 	export TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key"
 	export TWITTER_CONSUMER_SECRET="your-twitter-app-secret-api-key"
+
+activate the virtualenv
+
+	source env/bin/activate
 	
 then initialize the databases
 
@@ -29,10 +34,6 @@ finally, run
 
 	make server
 
-to activate the virtualenv later
-
-	source config/env/bin/activate
-
 to run a shell with the important stuff imported
 
 	make shell
@@ -41,7 +42,9 @@ to run tests
 
 	nosetests
 
-to get set up on heroku
+to get set up on heroku, first install the toolbelt: https://toolbelt.heroku.com/
+
+then, run
 
 	heroku create the-next-big-failure
 	heroku config:set APP_SETTINGS=config.ProductionConfig SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-key MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key" TWITTER_CONSUMER_KEY="your-twitter-app-secret-api-key"
@@ -49,6 +52,8 @@ to get set up on heroku
 	git push heroku master
 	heroku run python manage.py db upgrade
 	heroku open
+
+and you're ready to go!
 
 ### additions to flask-boilerplate
 + user accounts
@@ -62,5 +67,11 @@ to get set up on heroku
 
 
 ### TODO:
-+ nothing.
++ git cloning instructions, set remote, etc
++ virtualenv instructions
++ psql instructions
++ "Collectstatic configuration error" on heroku
++ Travis-CI instructions
++ better coverage
++ send emails in background task
 
