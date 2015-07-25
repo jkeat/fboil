@@ -18,7 +18,7 @@ class RegisterForm(Form):
     password = PasswordField(
         'Password', validators=[DataRequired(), Length(
             min=6,
-            message="Password must be more than 6 characters.")]
+            message="Password must be at least 6 characters.")]
     )
     confirm = PasswordField(
         'Confirm Password',
