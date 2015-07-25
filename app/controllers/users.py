@@ -195,8 +195,6 @@ def oauth_authorized(resp):
     this_user = User.query.filter_by(twitter_username=twitter_username).first()
     if this_user:
         login_user(this_user)
-        flash('You were signed in as %s' % twitter_username)
-        flash(twitter_user_data['name'] + "!")
         return redirect(next_url)
     else:
         new_user_username = User.make_unique_username(twitter_username)
