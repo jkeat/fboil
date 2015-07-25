@@ -1,23 +1,17 @@
-.PHONY: virtualenv
+.PHONY: install server foreman database shell test coverage
 
-VENV = config/env
-export PYTHONPATH := $(PYTHONPATH):.
+install:
+	virtualenv env
+	source env/bin/activate && \
+	pip install -r requirements.txt
 
-config/env: requirements.txt
-	virtualenv $@
-	. $@/bin/activate && pip install --requirement $<\
+server:
+	python run.py
 
-install: $(VENV)
-
-server: $(VENV)
-	. $(VENV)/bin/activate; python run.py
-
-foreman: $(VENV)
-	. $(VENV)/bin/activate && \
+foreman:
 	foreman start -f Procfile.dev
 
-database: $(VENV)
-	source $(VENV)/bin/activate && \
+database:
 	python manage.py db init && \
 	python manage.py db migrate && \
 	python manage.py db upgrade
@@ -25,10 +19,8 @@ database: $(VENV)
 shell:
 	python -i shell.py
 
-test: $(VENV)
-	source $(VENV)/bin/activate && \
+test:
 	nosetests
 
-coverage: $(VENV)
-	source $(VENV)/bin/activate && \
+coverage:
 	nosetests --with-coverage --cover-package=app
