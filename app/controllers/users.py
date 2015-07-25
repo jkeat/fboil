@@ -232,21 +232,3 @@ def set_username():
 
     elif request.method == 'GET':
         return render_template('users/forms/set-username.html', form=form)
-
-
-# =============================
-# === non-routing functions ===
-# =============================
-
-# def email_user_confirmation_link(user):
-#     """
-#     Used initially on signup and when user resends confirm email.
-#     """
-#     token = serializer.serialize_data(user.id)
-#     confirmation_link = url_for('users.confirm_user',
-#                                 token=token, _external=True)
-
-#     subject = "Please confirm your email address"
-#     html = render_template('users/emails/confirm.html',
-#                            confirmation_link=confirmation_link)
-#     send_email(user.email, subject, html)
