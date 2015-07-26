@@ -1,4 +1,4 @@
-import datetime, os
+import datetime
 from flask import (render_template, Blueprint, request, abort,
                    redirect, url_for, flash, current_app, session)
 from flask.ext.login import (login_user, logout_user, login_required,
@@ -8,8 +8,7 @@ from ..extensions import serializer, db, twitter
 from ..forms.users import (RegisterForm, LoginForm, ForgotPasswordForm,
                            ResetPasswordForm, SetUsernameForm)
 from ..models.users import User
-from ..decorators import (confirmed_email_required,
-                          unconfirmed_email_required, logout_required)
+from ..decorators import unconfirmed_email_required, logout_required
 from ..utils import send_email, email_user_confirmation_link
 
 
