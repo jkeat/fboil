@@ -71,6 +71,7 @@ def confirm_user(token):
         flash("Your email has already been confirmed.")
         return redirect(url_for("pages.home"))
     user.confirm_email()
+    login_user(user)
     flash("Congrats! Your account has been activated.")
     return redirect(url_for("pages.home"))
 
@@ -135,8 +136,8 @@ def reset_password(token):
 
             # then change their password to the new one
             form.change_password(user)
+            login_user(user)
             flash("Password changed successfully!")
-
             return redirect(url_for('users.login'))
 
     elif request.method == "GET":
