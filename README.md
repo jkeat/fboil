@@ -68,11 +68,17 @@ And you're ready to go!
 
 
 ### TODO:
-+ git cloning instructions, set remote, etc
++ git cloning instructions (set remote, etc)
 + virtualenv instructions
 + psql instructions
-+ "Collectstatic configuration error" on heroku
 + Travis-CI instructions
-+ Better coverage
-+ Send emails in background task
++ "Collectstatic configuration error" on Heroku
++ use Flask-Security instead of self-rolled email confirmation & password reset systems
 
+
+### Ideas for next steps
++ Send emails in background task
+	+ use second dyno and turn it on/off when needed
+	+ (will cost less than a penny/month)
++ Static files on S3
++ CloudFlare
