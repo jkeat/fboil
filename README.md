@@ -2,6 +2,16 @@
 
 Extension of the updated version of the Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
 
+### Additions to flask-boilerplate
++ user accounts
++ email confirmation
++ password reset
++ account related decorators
++ good testing coverage
++ Twitter OAuth sign in
++ Heroku-ready, Travis CI-ready
++ testing & production configs
+
 ## Setup
 
 Clone this repo and add your new repo location:
@@ -95,17 +105,6 @@ Use different values for SECRET_KEY and SECURITY_PASSWORD_SALT, though.
 #### Makefile
 
 I'd recommend reading through the Makefile so you know what the different commands are actually doing.
-
-### Additions to flask-boilerplate
-+ user accounts
-+ email confirmation
-+ password reset
-+ account related decorators
-+ good testing coverage
-+ Twitter OAuth sign in
-+ Heroku-friendly
-+ testing & production configs
-
 
 ### TODO:
 + More instructions!
