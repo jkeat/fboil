@@ -25,3 +25,6 @@ from flask import session
 @twitter.tokengetter
 def get_twitter_token(token=None):
     return session.get('twitter_token')
+
+from flask.ext.compress import Compress
+compress = Compress()
