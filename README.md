@@ -113,6 +113,7 @@ I'd recommend reading through the Makefile so you know what the different comman
 + CSS
 	+ Branch for bare HTML, no CSS framework
 	+ Branch for Semantic-UI
++ Favicon stuff
 
 ### Ideas for next steps
 + Send emails in background task
