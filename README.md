@@ -107,10 +107,12 @@ Use different values for SECRET_KEY and SECURITY_PASSWORD_SALT, though.
 I'd recommend reading through the Makefile so you know what the different commands are actually doing.
 
 ### TODO:
-+ More instructions!
++ More tutorial-esque instructions
 + `Collectstatic configuration error` on Heroku
 + use Flask-Security instead of self-rolled email confirmation & password reset systems
-
++ CSS
+	+ Branch for bare HTML, no CSS framework
+	+ Branch for Semantic-UI
 
 ### Ideas for next steps
 + Send emails in background task
