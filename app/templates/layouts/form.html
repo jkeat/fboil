@@ -10,10 +10,10 @@
 <!-- /meta -->
 
 <!-- styles -->
-<link type="text/css" rel="stylesheet" href="/static/css/font-awesome-4.0.1.min.css" />
+<!-- <link type="text/css" rel="stylesheet" href="/static/css/font-awesome-4.0.1.min.css" />
 <link type="text/css" rel="stylesheet" href="/static/css/bootstrap-3.0.0.min.css">
 <link type="text/css" rel="stylesheet" href="/static/css/bootstrap-theme-3.0.0.min.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/layout.forms.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/layout.forms.css" /> -->
 <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
 <link type="text/css" rel="stylesheet" href="/static/css/main.responsive.css" />
 <link type="text/css" rel="stylesheet" href="/static/css/main.quickfix.css" />
@@ -34,15 +34,14 @@
 <!-- /scripts -->
 
 </head>
-<body class="form-only-page">
+<body>
 
   <div class="container">
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-warning fade in">
-            <a class="close" data-dismiss="alert">&times;</a>
+          <div class="alert">
             {{ message }}
           </div>
         {% endfor %}
@@ -51,7 +50,7 @@
 
     {% for field in form.errors %}
       {% for error in form.errors[field] %}
-          <div class="alert alert-warning fade in">
+          <div class="alert">
             {{ error }}
           </div>
       {% endfor %}
