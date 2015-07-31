@@ -2,3 +2,6 @@
 .DS_Store
 env
 .coverage
+node_modules
+/semantic
+semantic.json

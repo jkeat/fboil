@@ -1,0 +1,10 @@
+{% extends 'layouts/main.html' %}
+{% block content %}
+	<div class="ui text container">
+	  <h1 class="ui header">
+	    {% block header %}{% endblock %}
+	  </h1>
+
+	  {% block text %}{% endblock %}
+	</div>
+{% endblock %}

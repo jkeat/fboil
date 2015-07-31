@@ -10,17 +10,11 @@
 <!-- /meta -->
 
 <!-- styles -->
-
-
-<!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome-4.0.1.min.css') }}" />
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-3.0.0.min.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme-3.0.0.min.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/layout.main.css') }}" />
- --><link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.responsive.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.quickfix.css') }}" />
-
-
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='semantic/semantic.min.css') }}" />
 <!-- /styles -->
 
 <!-- favicons -->
@@ -40,39 +34,80 @@
 </head>
 <body>
 
-  <!-- Wrap all page content here -->
-  <div id="wrap">
+  <!-- Navbar -->
+  <div class="ui grid">
+    <div class="computer tablet only row">
+      <div class="ui fixed inverted menu">
+        <div class="ui container">
+          <div>
+            <a class="header item" href="{{ url_for('pages.home') }}">Project name</a>
+          </div>
 
-    <!-- Navbar -->
-    <div class="navbar">
-      <div>
-        <a href="{{ url_for('pages.home') }}">Project name</a>
-      </div>
-      <ul>
-        <li>
+          <a class="item" href="{{ url_for('pages.home') }}">Home</a>
+          <a class="item" href="{{ url_for('pages.about') }}">About</a>
+          <a class="item" href="{{ url_for('pages.secret') }}">Secret</a>
+
           {% if current_user.is_authenticated() %}
-            <div>Hi, {{ current_user.username }}!</a>
+          <div class="right menu">
+            <div class="ui pointing dropdown item">
+              <i class="user icon"></i>
+              {{ current_user.username }}
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+              </div>
+            </div>
+          </div>
           {% else %}
-            <div>Menu</div>
+          <div class="right menu">
+            <a class="item" href="{{ url_for('users.login') }}">Login</a>
+            <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+          </div>
           {% endif %}
-          <ul>
-            {% if current_user.is_authenticated() %}
-              <li><a href="{{ url_for('users.logout') }}">Logout</a></li>
-            {% else %}
-              <li><a href="{{ url_for('users.register') }}">Signup</a></li>
-              <li><a href="{{ url_for('users.login') }}">Login</a></li>
-            {% endif %}
-          </ul>
-        </li>
-      </ul>
-      <div>
-        <ul>
-          <li><a href="{{ url_for('pages.home') }}">Home</a></li>
-          <li><a href="{{ url_for('pages.about') }}">About</a></li>
-          <li><a href="{{ url_for('pages.secret') }}">Secret</a></li>
-        </ul>
+        </div>
       </div>
     </div>
+    <div class="mobile only row">
+      <div class="ui fixed inverted menu">
+        <div class="ui container">
+          <div>
+            <a class="header item" href="{{ url_for('pages.home') }}">Project name</a>
+          </div>
+
+          <div class="right menu">
+            <div class="ui dropdown item">
+              <i class="sidebar icon"></i>
+              Menu
+              <div class="ui wide menu vertical">
+                  <a class="item" href="{{ url_for('pages.home') }}">Home</a>
+                  <a class="item" href="{{ url_for('pages.about') }}">About</a>
+                  <a class="item" href="{{ url_for('pages.secret') }}">Secret</a>
+                  {% if current_user.is_authenticated() %}
+                    <div class="header">
+                      <i class="user icon"></i>
+                      {{ current_user.username }}
+                    </div>
+                    <div class="divider"></div>
+                    <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+                  {% else %}
+                    <div class="header">
+                      <i class="user icon"></i>
+                      Account
+                    </div>
+                    <a class="item" href="{{ url_for('users.login') }}">Login</a>
+                    <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Wrap all page content here -->
+  <div id="wrap">
 
     <!-- Begin page content -->
     <main id="content" role="main">
@@ -93,18 +128,17 @@
 
   </div> <!-- / .navbar -->
 
-  <div id="footer">
-    <div>
-      <p>Your Company &copy; All Rights Reserved.</p>
-      {% block footer %}{% endblock %}
+  <div class="footer">
+    <div class="ui text container">
+      Your Company &copy; All Rights Reserved.
     </div>
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.10.2.min.js"><\/script>')</script>
-  <script defer src="/static/js/libs/bootstrap-3.0.0.min.js"></script>
-  <script defer src="/static/js/plugins.js"></script>
-  <script defer src="/static/js/script.js"></script>
+  <script src="{{ url_for('static', filename='semantic/semantic.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
   <!-- FBOIL-TODO: Google Analytics - Change UA-XXXXX-X to be your site's ID -->
   <script>
   window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
