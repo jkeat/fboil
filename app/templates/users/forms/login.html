@@ -1,23 +1,35 @@
 {% extends 'layouts/form.html' %}
-{% block title %}Login{% endblock %}
+
+{% block title %}Log in to fboil{% endblock %}
+
+{% block form_header %}Log in{% endblock %}
+
 {% block content %}
-  <form method="post" class="form">
-    <h3>Log in - <a href="{{ url_for('pages.home') }}">Home</a></h3>
+  <a href="{{ url_for('users.twitter_login') }}" class="ui large fluid twitter button field">
+    <i class="twitter icon"></i>
+    Log in with Twitter
+  </a>
 
-    <p>
-      <a href="{{ url_for('users.twitter_login') }}">Log in with Twitter</a>
-    </p>
+  <div class="ui horizontal divider">
+    Or
+  </div>
 
-    {{ form.hidden_tag() }}
-    {{ form.username(class_ = 'first-input', placeholder = form.username.label.text, required = true, autofocus = true) }}
-    {{ form.password(class_ = 'last-input', placeholder = form.password.label.text, required = true) }}
+  {{ form.hidden_tag() }}
 
-    <input type="submit" value="Log in">
+  <div class="ui field">
+    {{ form.username(placeholder = form.username.label.text, required = true, autofocus = true) }}
+  </div>
 
-    <div>
-	    <p><a href="{{ url_for('users.forgot_password') }}">Forgot your password?</a></p>
-	    <p><a href="{{ url_for('users.register') }}">Sign up</a></p>
-	  </div>
+  <div class="ui field">
+    {{ form.password(placeholder = form.password.label.text, required = true) }}
+  </div>
 
-  </form>
+  <input class="ui fluid large olive submit button" type="submit" value="Log in">
+{% endblock %}
+
+{% block form_footer %}
+    <div class="ui message">
+      <p><a href="{{ url_for('users.forgot_password') }}">Forgot your password?</a></p>
+      <p><a href="{{ url_for('users.register') }}">Sign up</a></p>
+    </div>
 {% endblock %}

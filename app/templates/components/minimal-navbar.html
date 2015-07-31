@@ -1,0 +1,50 @@
+  <!-- Navbar -->
+  <div class="ui grid">
+    <div class="computer tablet only row">
+      <div class="ui fixed inverted menu">
+        <div class="ui container">
+          <div>
+            <a class="header item" href="{{ url_for('pages.home') }}">Project name</a>
+          </div>
+          {% block navbar_space %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <div class="mobile only row">
+      <div class="ui fixed inverted menu">
+        <div class="ui container">
+          <div>
+            <a class="header item" href="{{ url_for('pages.home') }}">Project name</a>
+          </div>
+
+          <div class="right menu">
+            <div class="ui dropdown item">
+              <i class="sidebar icon"></i>
+              Menu
+              <div class="ui wide menu vertical">
+                  <a class="item" href="{{ url_for('pages.home') }}">Home</a>
+                  <a class="item" href="{{ url_for('pages.about') }}">About</a>
+                  <a class="item" href="{{ url_for('pages.secret') }}">Secret</a>
+                  {% if current_user.is_authenticated() %}
+                    <div class="header">
+                      <i class="user icon"></i>
+                      {{ current_user.username }}
+                    </div>
+                    <div class="divider"></div>
+                    <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+                  {% else %}
+                    <div class="header">
+                      <i class="user icon"></i>
+                      Account
+                    </div>
+                    <a class="item" href="{{ url_for('users.login') }}">Login</a>
+                    <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- / Navbar -->

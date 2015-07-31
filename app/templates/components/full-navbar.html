@@ -1,0 +1,25 @@
+{% extends 'components/minimal-navbar.html' %}
+
+{% block navbar_space %}
+  <a class="item" href="{{ url_for('pages.home') }}">Home</a>
+  <a class="item" href="{{ url_for('pages.about') }}">About</a>
+  <a class="item" href="{{ url_for('pages.secret') }}">Secret</a>
+
+  {% if current_user.is_authenticated() %}
+  <div class="right menu">
+    <div class="ui pointing dropdown item">
+      <i class="user icon"></i>
+      {{ current_user.username }}
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="right menu">
+    <a class="item" href="{{ url_for('users.login') }}">Login</a>
+    <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+  </div>
+  {% endif %}
+{% endblock %}

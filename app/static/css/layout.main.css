@@ -14,13 +14,21 @@ body {
   height: 100%;
   /* Negative indent footer by its height */
   margin: 0 auto -60px;
-  /* Pad bottom by footer height */
+  /* Pad bottom by footer height and top my navbar height */
   padding: 40px 0 60px;
 }
 
 /* Navbar */
 .ui.dropdown .menu.wide {
   width: 100vw;
+}
+
+/* Messages */
+.ui.messages.text.container {
+  margin-bottom: 50px;
+}
+.ui.messages.text.container .alert {
+  margin-bottom: 20px;
 }
 
 /* Content */
