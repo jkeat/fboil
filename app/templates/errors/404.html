@@ -1,6 +1,10 @@
-{% extends 'layouts/main.html' %}
-{% block content %}
-  <h1>404!!</h1>
+{% extends 'layouts/text-page.html' %}
+
+{% block title %}404{% endblock %}
+
+{% block header %}404!!{% endblock %}
+
+{% block text %}
   <p>There's nothing here.</p>
   <p><a href="{{ url_for('pages.home') }}">Back</a></p>
 {% endblock %}
