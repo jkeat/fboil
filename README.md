@@ -112,8 +112,9 @@ I'd recommend reading through the Makefile so you know what the different comman
 + use Flask-Security instead of self-rolled email confirmation & password reset systems
 + CSS
 	+ Branch for bare HTML, no CSS framework
-	+ Branch for Semantic-
+	+ Branch for Semantic-UI
 	+ Single layout for form/main to inherit
++ Favicon stuff
 
 ### Ideas for next steps
 + Send emails in background task

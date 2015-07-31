@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from .extensions import (login_manager, db, mail, serializer,
                          compress)
 
@@ -23,6 +23,7 @@ def create_app(config_filename):
 
     configure_blueprints(app, BLUEPRINTS)
     configure_extensions(app)
+    configure_error_handlers(app)
 
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.ERROR)
@@ -56,3 +57,14 @@ def configure_extensions(app):
 def configure_blueprints(app, blueprints):
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
+
+
+def configure_error_handlers(app):
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('errors/500.html'), 500
+
