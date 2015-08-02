@@ -3,14 +3,18 @@
 Extension of the updated version of the Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
 
 ### Additions to flask-boilerplate
-+ user accounts
-+ email confirmation
-+ password reset
-+ account related decorators
-+ good testing coverage
-+ Twitter OAuth sign in
++ User accounts
+	+ Email/username/password
+		+ Email confirmation
+		+ Password reset
+	+ Twitter OAuth
++ Lots of tests
++ Flexible CSS
+	+ Semantic-UI (`master` branch)
+	+ Bootstrap (`bootstrap` branch)
+	+ No CSS framework (`bare-css` branch)
++ Multiple configs (development, testing, production)
 + Heroku-ready, Travis CI-ready
-+ testing & production configs
 
 ## Setup
 
@@ -110,10 +114,6 @@ I'd recommend reading through the Makefile so you know what the different comman
 + More tutorial-esque instructions
 + `Collectstatic configuration error` on Heroku
 + use Flask-Security instead of self-rolled email confirmation & password reset systems
-+ CSS
-	+ Branch for bare HTML, no CSS framework
-	+ Branch for Semantic-UI
-	+ Single layout for form/main to inherit
 + Favicon stuff
 
 ### Ideas for next steps
