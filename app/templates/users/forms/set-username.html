@@ -1,11 +1,14 @@
 {% extends 'layouts/form.html' %}
-{% block title %}Set username{% endblock %}
-{% block content %}
-  <form method="post" class="form">
-    <h3>Choose username - <a href="{{ url_for('pages.home') }}">Home</a></h3>
 
+{% block title %}Set username{% endblock %}
+
+{% block form_header %}Set username{% endblock %}
+
+{% block content %}
     {{ form.hidden_tag() }}
-    {{ form.username(class_ = 'first-input last-input', value = current_user.username, required = true, autofocus = true) }}
-    <input type="submit" value="Submit">
-  </form>
+    <div class="ui field">
+    	{{ form.username(value = current_user.username, required = true, autofocus = true) }}
+    </div>
+
+    <input class="ui fluid large olive submit button" type="submit" value="Set username">
 {% endblock %}

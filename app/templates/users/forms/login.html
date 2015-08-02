@@ -2,7 +2,7 @@
 
 {% block title %}Log in to fboil{% endblock %}
 
-{% block form_header %}Log in{% endblock %}
+{% block form_header %}Log in{% endblock %}  
 
 {% block content %}
   <a href="{{ url_for('users.twitter_login') }}" class="ui large fluid twitter button field">
@@ -23,13 +23,18 @@
   <div class="ui field">
     {{ form.password(placeholder = form.password.label.text, required = true) }}
   </div>
+  {% if form.errors %}
+    <div class="hint">
+      Forgot your password? <a href="{{ url_for('users.forgot_password') }}">Set a new one.</a>
+    </div>
+  {% endif %}
 
   <input class="ui fluid large olive submit button" type="submit" value="Log in">
 {% endblock %}
 
+
 {% block form_footer %}
     <div class="ui message">
-      <p><a href="{{ url_for('users.forgot_password') }}">Forgot your password?</a></p>
-      <p><a href="{{ url_for('users.register') }}">Sign up</a></p>
+      Don't have an account? <a href="{{ url_for('users.register') }}">Sign up</a>
     </div>
 {% endblock %}

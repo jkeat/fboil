@@ -15,6 +15,7 @@
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.responsive.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.quickfix.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='semantic/semantic.min.css') }}" />
+{% block css %}{% endblock %}
 <!-- /styles -->
 
 <!-- favicons -->
@@ -36,10 +37,10 @@
 
   {% include 'components/full-navbar.html' %}
 
-  <!-- Wrap all page content here -->
+  <!-- #wrap -->
   <div id="wrap">
 
-    <!-- Begin page content -->
+    <!-- #content -->
     <main id="content" role="main">
 
       
@@ -57,18 +58,20 @@
 
       {% block content %}{% endblock %}
 
-    </main>
+    </main> <!-- / #content -->
 
-  </div> <!-- / .navbar -->
+  </div> <!-- / #wrap -->
 
+
+  <!-- .footer -->
   <div class="footer">
     <div class="ui text container">
       Your Company &copy; All Rights Reserved.
     </div>
-  </div>
+  </div> <!-- / .footer -->
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.10.2.min.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="{{ url_for("static", filename="js/libs/jquery-1.10.2.min.js") }}"><\/script>')</script>
   <script src="{{ url_for('static', filename='semantic/semantic.min.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/plugins.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>

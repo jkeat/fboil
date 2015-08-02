@@ -1,6 +1,6 @@
 {% extends 'components/minimal-navbar.html' %}
 
-{% block navbar_space %}
+{% block navbar_desktop_space %}
   <a class="item" href="{{ url_for('pages.home') }}">Home</a>
   <a class="item" href="{{ url_for('pages.about') }}">About</a>
   <a class="item" href="{{ url_for('pages.secret') }}">Secret</a>
@@ -22,4 +22,34 @@
     <a class="item" href="{{ url_for('users.register') }}">Signup</a>
   </div>
   {% endif %}
+{% endblock %}
+
+
+{% block navbar_mobile_space %}
+  <div class="right menu">
+    <div class="ui dropdown item">
+      <i class="sidebar icon"></i>
+      Menu
+      <div class="ui wide menu vertical">
+          <a class="item" href="{{ url_for('pages.home') }}">Home</a>
+          <a class="item" href="{{ url_for('pages.about') }}">About</a>
+          <a class="item" href="{{ url_for('pages.secret') }}">Secret</a>
+          {% if current_user.is_authenticated() %}
+            <div class="header">
+              <i class="user icon"></i>
+              {{ current_user.username }}
+            </div>
+            <div class="divider"></div>
+            <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+          {% else %}
+            <div class="header">
+              <i class="user icon"></i>
+              Account
+            </div>
+            <a class="item" href="{{ url_for('users.login') }}">Login</a>
+            <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+          {% endif %}
+      </div>
+    </div>
+  </div>
 {% endblock %}

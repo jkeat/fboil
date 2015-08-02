@@ -25,7 +25,7 @@ body {
 
 /* Messages */
 .ui.messages.text.container {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .ui.messages.text.container .alert {
   margin-bottom: 20px;
