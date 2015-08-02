@@ -4,7 +4,7 @@
 
 {% block form_header %}Set username{% endblock %}
 
-{% block content %}
+{% block form_guts %}
     {{ form.hidden_tag() }}
     <div class="ui field">
     	{{ form.username(value = current_user.username, required = true, autofocus = true) }}

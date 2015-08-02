@@ -1,89 +1,48 @@
-<!doctype html>
-<head>
-<meta charset="utf-8">
-<title>{% block title %}{% endblock %}</title>
+{% extends 'layouts/main.html' %}
 
-<!-- meta -->
-<meta name="description" content="">
-<meta name="author" content="">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- /meta -->
+{% block css %}
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/layout.forms.css') }}" />
+{% endblock %}
 
-<!-- styles -->
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/layout.forms.css') }}" />
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.responsive.css') }}" />
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.quickfix.css') }}" />
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='semantic/semantic.min.css') }}" />
-<!-- /styles -->
+{% block body_class %}form-only{% endblock %}
 
-<!-- favicons -->
-<link rel="shortcut icon" href="/static/ico/favicon.png">
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="/static/ico/favicon.png">
-<!-- /favicons -->
-
-<!-- scripts -->
-<script src="/static/js/libs/modernizr-2.6.2.min.js"></script>
-<!--[if lt IE 9]><script src="/static/js/libs/respond-1.3.0.min.js"></script><![endif]-->
-<!-- /scripts -->
-
-</head>
-<body class="form-only">
-
+{% block navbar %}
   {% include 'components/minimal-navbar.html' %}
-  <div id="wrap">
-    <div class="ui middle center aligned aligned grid">
-      <div class="column">
+{% endblock %}
 
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            {% for message in messages %}
-              <div class="ui message">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
+{% block substance %}
+  <div class="ui middle center aligned aligned grid">
+    <div class="column">
 
-
-        <h1 class="ui olive header">{% block form_header %}{% endblock %}</h1>
-
-        {% for field in form.errors %}
-          {% for error in form.errors[field] %}
-              <div class="ui error message">
-                {{ error }}
-              </div>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="ui message">
+              {{ message }}
+            </div>
           {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+
+      <h1 class="ui olive header">{% block form_header %}{% endblock %}</h1>
+
+      {% for field in form.errors %}
+        {% for error in form.errors[field] %}
+            <div class="ui error message">
+              {{ error }}
+            </div>
         {% endfor %}
-        
-        <form method="post" class="ui large form">
-          <div class="ui stacked segment">
-            {% block content %}{% endblock %}
-          </div>
-        </form>
+      {% endfor %}
+      
+      <form method="post" class="ui large form">
+        <div class="ui stacked segment">
+          {% block form_guts %}{% endblock %}
+        </div>
+      </form>
 
-        {% block form_footer %}{% endblock %}
+      {% block form_footer %}{% endblock %}
 
-      </div>
     </div>
   </div>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.10.2.min.js"><\/script>')</script>
-  <script src="{{ url_for('static', filename='semantic/semantic.min.js') }}"></script>
-  <script defer src="{{ url_for('static', filename='js/plugins.js') }}"></script>
-  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
-  <!-- FBOIL-TODO: Google Analytics - Change UA-XXXXX-X to be your site's ID -->
-  <script>
-  window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
-  Modernizr.load({
-    load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
-  });
-  </script>
-
-</body>
-</html>
+{% endblock %}
