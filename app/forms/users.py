@@ -78,7 +78,7 @@ class ResetPasswordForm(Form):
     password = PasswordField(
         'New password', validators=[DataRequired(), Length(
             min=6,
-            message="Password must be between 6 and 40 characters.")]
+            message="Password must be at least 6 characters.")]
     )
     confirm = PasswordField(
         'Confirm new password',
@@ -100,7 +100,7 @@ class SetUsernameForm(Form):
     )
 
     def validate_username(self, field):
-        if field.data != current_user.username and User.is_username_taken(field.data):
+        if field.data.lower() != current_user.username.lower() and User.is_username_taken(field.data):
             raise ValidationError("That username is already taken")
 
     def set_username(self, user_id):
