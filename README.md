@@ -18,7 +18,7 @@ Extension of the updated version of the Flask-Boilerplate project found here: ht
 
 ## Setup
 
-Clone this repo and add your new repo location:
+Clone this repo then add your new repo location
 
 	$ git clone https://github.com/jkeat/fboil.git
 	$ git remote rm origin
@@ -47,18 +47,18 @@ Run
 
 	$ make install
 
-This creates a virtualenv and installs the dependencies.
+This creates a virtualenv and installs the pip dependencies.
 
-Next you need to set these environment variables in env/bin/activate
+Next you need to set these environment variables at the top of `env/bin/activate`
 
-	$ export APP_SETTINGS="config.DevelopmentConfig"
-	$ export SECRET_KEY="really-long-good-random-key"
-	$ export SECURITY_PASSWORD_SALT="different-long-good-random-key"
-	$ export MAIL_USERNAME="username99"
-	$ export MAIL_PASSWORD="p4ssw0rd"
-	$ export MAIL_DEFAULT_SENDER="username99@gmail.com"
-	$ export TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key"
-	$ export TWITTER_CONSUMER_SECRET="your-twitter-app-secret-api-key"
+	export APP_SETTINGS="config.DevelopmentConfig"
+	export SECRET_KEY="really-long-good-random-key"
+	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
+	export MAIL_USERNAME="username99"
+	export MAIL_PASSWORD="p4ssw0rd"
+	export MAIL_DEFAULT_SENDER="username99@gmail.com"
+	export TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key"
+	export TWITTER_CONSUMER_SECRET="your-twitter-app-secret-api-key"
 
 Activate the virtualenv
 
@@ -83,12 +83,12 @@ To run tests
 	$ make test  # basic testing using nosetests
 	$ make coverage  # show which areas aren't tested
 
-To get set up on heroku, first install the toolbelt: https://toolbelt.heroku.com/
+To get set up on Heroku, first install the toolbelt: https://toolbelt.heroku.com/
 
 Then, run
 
 	$ heroku create the-next-big-failure
-	$ heroku config:set APP_SETTINGS=config.ProductionConfig SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-key MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key" TWITTER_CONSUMER_KEY="your-twitter-app-secret-api-key"
+	$ heroku config:set APP_SETTINGS=config.ProductionConfig SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-salt MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd TWITTER_CONSUMER_KEY=your-twitter-app-consumer-api-key TWITTER_CONSUMER_KEY=your-twitter-app-secret-api-key
 	$ heroku addons:create heroku-postgresql:hobby-dev
 	$ git push heroku master
 	$ heroku run python manage.py db upgrade
@@ -102,9 +102,9 @@ If you want to have your app automatically tested when you push it to GitHub, yo
 
 (If you're just getting started with Flask, I'd recommend saving this for later.)
 
-Sign in and add your repo. You need to set the same config variables on Travis-CI as you did on Heroku, besides APP_SETTINGS, which is already set to config.TestingConfig for you in the .travis.yml file.
+Sign in and add your repo. You need to set the same config variables on Travis-CI as you did on Heroku, besides `APP_SETTINGS`, which is already set to `config.TestingConfig` for you in the `.travis.yml` file.
 
-Use different values for SECRET_KEY and SECURITY_PASSWORD_SALT, though.
+Use different values for `SECRET_KEY` and `SECURITY_PASSWORD_SALT`, though.
 
 #### Makefile
 
