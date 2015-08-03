@@ -7,14 +7,14 @@ body {
   /* The html and body elements cannot have any padding or margin. */
 }
 
-/* Wrapper for page content to push down footer */
+/* Wrapper */
 #wrap {
   min-height: 100%;
   height: auto !important;
   height: 100%;
   /* Negative indent footer by its height */
   margin: 0 auto -60px;
-  /* Pad bottom by footer height and top my navbar height */
+  /* Pad bottom by footer height and top by navbar height */
   padding: 40px 0 60px;
 }
 
@@ -37,7 +37,7 @@ body {
   margin-bottom: 120px;
 }
 
-/* Set the fixed height of the footer here */
+/* Footer */
 .footer {
   height: 60px;
   background-color: #f5f5f5;
@@ -49,7 +49,6 @@ body {
 
 /* Custom page CSS
 -------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 
 #wrap > .container {
   padding: 60px 15px 0;

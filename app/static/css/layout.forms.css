@@ -1,15 +1,10 @@
 body.form-only {
-  padding-top: 40px;
-  padding-bottom: 40px;
   background-color: #eee;
 }
 
-.form-only #wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  /* Pad bottom by footer height and top my navbar height */
-  padding: 40px 0 0;
+.form-only #content {
+  margin-top: 50px;
+  margin-bottom: 20px;
 }
 
 .form-only .column {
@@ -22,8 +17,4 @@ body.form-only {
   text-align: left;
   font-size: 12px;
   margin: -10px 0 15px 0;
-}
-
-.form-only div.spotlight {
-  margin: 20px 0;
 }
