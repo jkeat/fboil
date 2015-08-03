@@ -23,3 +23,7 @@ body.form-only {
   font-size: 12px;
   margin: -10px 0 15px 0;
 }
+
+.form-only div.spotlight {
+  margin: 20px 0;
+}
