@@ -56,7 +56,7 @@ Next you need to set these environment variables at the top of `env/bin/activate
 	export SECURITY_PASSWORD_SALT="different-long-good-random-key"
 	export MAIL_USERNAME="username99"
 	export MAIL_PASSWORD="p4ssw0rd"
-	export MAIL_DEFAULT_SENDER="username99@gmail.com"
+	export MAIL_DEFAULT_SENDER="username99@example.com"
 	export TWITTER_CONSUMER_KEY="your-twitter-app-consumer-api-key"
 	export TWITTER_CONSUMER_SECRET="your-twitter-app-secret-api-key"
 
@@ -83,12 +83,20 @@ To run tests
 	$ make test  # basic testing using nosetests
 	$ make coverage  # show which areas aren't tested
 
-To get set up on Heroku, first install the toolbelt: https://toolbelt.heroku.com/
+To get set up on Heroku, make a [Heroku account](https://signup.heroku.com/) and install the [toolbelt](https://toolbelt.heroku.com/).
+
+Log in to the heroku CLI
+
+	$ heroku login
+	Enter your Heroku credentials.
+	Email: username99@example.com
+	Password (typing will be hidden): 
+	Authentication successful.
 
 Then, run
 
 	$ heroku create the-next-big-failure
-	$ heroku config:set APP_SETTINGS=config.ProductionConfig SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-salt MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd TWITTER_CONSUMER_KEY=your-twitter-app-consumer-api-key TWITTER_CONSUMER_KEY=your-twitter-app-secret-api-key
+	$ heroku config:set APP_SETTINGS=config.ProductionConfig SECRET_KEY=not-the-same-as-your-dev-key SECURITY_PASSWORD_SALT=also-not-the-same-as-your-dev-salt MAIL_USERNAME=username99 MAIL_PASSWORD=p4ssw0rd MAIL_DEFAULT_SENDER=username99@example.com TWITTER_CONSUMER_KEY=your-twitter-app-consumer-api-key TWITTER_CONSUMER_KEY=your-twitter-app-secret-api-key
 	$ heroku addons:create heroku-postgresql:hobby-dev
 	$ git push heroku master
 	$ heroku run python manage.py db upgrade
@@ -111,10 +119,10 @@ Use different values for `SECRET_KEY` and `SECURITY_PASSWORD_SALT`, though.
 I'd recommend reading through the Makefile so you know what the different commands are actually doing.
 
 ### TODO:
-+ More tutorial-esque instructions
++ More detailed README instructions (numbered steps)
 + `Collectstatic configuration error` on Heroku
 + use Flask-Security instead of self-rolled email confirmation & password reset systems
-+ Favicon stuff
++ Make a simple extension of fboil (a blog or something)
 
 ### Ideas for next steps
 + Send emails in background task
