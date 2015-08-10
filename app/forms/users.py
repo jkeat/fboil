@@ -60,8 +60,6 @@ class LoginForm(Form):
     def get_user(self):
         user = User.get_by_email_or_username(self.username.data)
         if user:
-            if not user.passhash:  # because they signed up with Twitter
-                return None
             if user.check_password(self.password.data):
                 return user
 
