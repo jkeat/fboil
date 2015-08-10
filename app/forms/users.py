@@ -32,7 +32,7 @@ class RegisterForm(Form):
 
     def validate_email(self, field):
         if User.is_email_taken(field.data):
-            raise ValidationError("That email is already taken")
+            raise ValidationError("That email is already in use")
 
     def create_user(self):
         new_user = User(username=self.username.data,
