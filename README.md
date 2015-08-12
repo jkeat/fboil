@@ -1,5 +1,7 @@
 # Fboil
 
+Fboil is a robust Flask boilerplate setup powered by Flask-Login, WTForms, PostgreSQL & SQLAlchemy, and Flask-Testing. There's also Twitter OAuth login, branches for Semantic-UI/Bootstrap/no CSS, and a lot more. Fboil is ready to run on Heroku and test on Travis-CI.
+
 Fboil is an extension of the updated version of the Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
 
 ##### Additions to flask-boilerplate
