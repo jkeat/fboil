@@ -5,36 +5,36 @@
 {% block form_header %}Log in{% endblock %}  
 
 {% block form_guts %}
-  <a href="{{ url_for('users.twitter_login') }}" class="ui large fluid twitter button field">
+  <a href="{{ url_for('users.twitter_login') }}" class="">
     <i class="twitter icon"></i>
     Log in with Twitter
   </a>
 
-  <div class="ui horizontal divider">
+  <div class="">
     Or
   </div>
 
   {{ form.hidden_tag() }}
 
-  <div class="ui field">
+  <div class="">
     {{ form.username(placeholder = form.username.label.text, required = true, autofocus = true) }}
   </div>
 
-  <div class="ui field">
+  <div class="">
     {{ form.password(placeholder = form.password.label.text, required = true) }}
   </div>
   {% if form.errors %}
-    <div class="hint">
+    <div class="">
       Forgot your password? <a href="{{ url_for('users.forgot_password') }}">Set a new one.</a>
     </div>
   {% endif %}
 
-  <input class="ui fluid large olive submit button" type="submit" value="Log in">
+  <input class="" type="submit" value="Log in">
 {% endblock %}
 
 
 {% block form_footer %}
-    <div class="ui message">
+    <div class="">
       Don't have an account? <a href="{{ url_for('users.register') }}">Sign up</a>
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.responsive.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.quickfix.css') }}" />
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='semantic/semantic.min.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/libs/normalize.css') }}" />
 {% block css %}{% endblock %}
 <!-- /styles -->
 
@@ -43,9 +43,9 @@
       
       {% with messages = get_flashed_messages() %}
         {% if messages %}
-          <div class="ui messages text container">
+          <div class="">
             {% for message in messages %}
-              <div class="ui message alert">
+              <div class="message">
                 {{ message }}
               </div>
             {% endfor %}
@@ -63,7 +63,6 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="{{ url_for("static", filename="js/libs/jquery-1.10.2.min.js") }}"><\/script>')</script>
-  <script src="{{ url_for('static', filename='semantic/semantic.min.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/plugins.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
   <!-- FBOIL-TODO: Google Analytics - Change UA-XXXXX-X to be your site's ID -->

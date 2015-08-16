@@ -26,11 +26,23 @@ a {
   background: #555;
   color: #FFF;
 }
+code {
+  font-size: 80%;
+}
 /* Main elements end */
 
 
 /*****************************************************************************
  * Various other styles
  ****************************************************************************/
+.message {
+	color: orange;
+}
+.message.error {
+	color: red;
+}
 
+.footer {
+  background-color: #eee;
+}
 /* Various other styles end */

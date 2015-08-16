@@ -6,9 +6,9 @@
 
 {% block form_guts %}
     {{ form.hidden_tag() }}
-    <div class="ui field">
+    <div class="">
     	{{ form.username(value = current_user.username, required = true, autofocus = true) }}
     </div>
 
-    <input class="ui fluid large olive submit button" type="submit" value="Set username">
+    <input class="" type="submit" value="Set username">
 {% endblock %}

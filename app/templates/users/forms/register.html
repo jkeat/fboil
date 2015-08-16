@@ -5,41 +5,41 @@
 {% block form_header %}Sign up{% endblock %}
 
 {% block form_guts %}
-  <a href="{{ url_for('users.twitter_login') }}" class="ui large fluid twitter button field">
+  <a href="{{ url_for('users.twitter_login') }}" class="">
     <i class="twitter icon"></i>
     Sign up with Twitter
   </a>
 
-  <div class="ui horizontal divider">
+  <div class="">
     Or
   </div>
 
-  <div class="ui field">
+  <div class="">
     {{ form.hidden_tag() }}
   </div>
 
-  <div class="ui field">
+  <div class="">
     {{ form.username(placeholder = form.username.label.text, required = true, autofocus = true) }}
   </div>
 
-  <div class="ui field">
+  <div class="">
     {{ form.email(placeholder = form.email.label.text, required = true) }}
   </div>
 
-  <div class="ui field">
+  <div class="">
     {{ form.password(placeholder = form.password.label.text, required = true) }}
   </div>
 
-  <div class="ui field">
+  <div class="">
     {{ form.confirm(placeholder = form.confirm.label.text, required = true) }}
   </div>
 
-  <input class="ui fluid large olive submit button" type="submit" value="Sign up">
+  <input class="" type="submit" value="Sign up">
 {% endblock %}
 
 
 {% block form_footer %}
-    <div class="ui message">
+    <div class="">
       Already have an account? <a href="{{ url_for('users.login') }}">Log in</a>
     </div>
 {% endblock %}

@@ -1,24 +1,8 @@
   <!-- Navbar -->
-  <div class="ui grid">
-    <div class="computer tablet only row">
-      <div class="ui fixed inverted menu">
-        <div class="ui container">
-          <div>
-            <a class="header item" href="{{ url_for('pages.home') }}">Project name</a>
-          </div>
-          {% block navbar_desktop_space %}{% endblock %}
-        </div>
-      </div>
+  <div class="navbar">
+    <div>
+      <a class="" href="{{ url_for('pages.home') }}">Project name</a>
     </div>
-    <div class="mobile only row">
-      <div class="ui fixed inverted menu">
-        <div class="ui container">
-          <div>
-            <a class="header item" href="{{ url_for('pages.home') }}">Project name</a>
-          </div>
-          {% block navbar_mobile_space %}{% endblock %}
-        </div>
-      </div>
-    </div>
+    {% block more_navbar_space %}{% endblock %}
   </div>
   <!-- / Navbar -->

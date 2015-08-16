@@ -11,21 +11,21 @@
 {% endblock %}
 
 {% block substance %}
-  <div class="ui middle center aligned grid">
-    <div class="column">
+  <div class="">
+    <div class="">
 
-      <h1 class="ui olive header">{% block form_header %}{% endblock %}</h1>
+      <h1 class="">{% block form_header %}{% endblock %}</h1>
 
       {% for field in form.errors %}
         {% for error in form.errors[field] %}
-            <div class="ui error message">
+            <div class="error message">
               {{ error }}
             </div>
         {% endfor %}
       {% endfor %}
       
-      <form method="post" class="ui large form">
-        <div class="ui stacked segment">
+      <form method="post" class="">
+        <div class="">
           {% block form_guts %}{% endblock %}
         </div>
       </form>
