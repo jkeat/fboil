@@ -14,7 +14,6 @@ Fboil is an extension of the updated version of the Flask-Boilerplate project fo
 + Lots of tests
 + Flexible CSS
 	+ Semantic-UI (`master` branch)
-	+ Bootstrap (`bootstrap` branch)
 	+ No CSS framework (`bare-css` branch)
 + Multiple configs (development, testing, production)
 + Heroku-ready, Travis CI-ready
@@ -139,7 +138,8 @@ Read through the Makefile so you know what the commands you use are doing.
 
 ## TODO
 + More detailed README instructions (numbered steps)
-+ `Collectstatic configuration error` on Heroku
++ Clean up CSS & JS
++ `Collectstatic configuration error` on Heroku?
 + Use Flask-Security instead of self-rolled email confirmation & password reset systems
 + Make a simple extension of fboil (a blog or something)
 
