@@ -8,7 +8,11 @@
 /*****************************************************************************
  * Extra small devices (phones, up to 767px)
  ****************************************************************************/
-@media (max-width: 767px) {}
+@media (max-width: 767px) {
+	#content {
+		margin: 40px 0 60px;
+	}
+}
 /* Extra small devices (phones, up to 767px) end */
 
 
