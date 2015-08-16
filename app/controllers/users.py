@@ -130,7 +130,7 @@ def reset_password(token):
                 email = serializer.load_timed_token(token)
             except BadSignature:
                 abort(404)
-            user = User.query.filter_by(email=email).first()
+            user = User.get_by_email_or_username(email=email)
             if user is None:
                 abort(404)
 
@@ -138,14 +138,14 @@ def reset_password(token):
             form.change_password(user)
             login_user(user)
             flash("Password changed successfully!")
-            return redirect(url_for('users.login'))
+            return redirect(url_for('pages.home'))
 
     elif request.method == "GET":
         try:
             email = serializer.load_timed_token(token)
         except BadSignature:
             abort(404)
-        user = User.query.filter_by(email=email).first()
+        user = User.get_by_email_or_username(email=email)
         if user is None:
             abort(404)
         return render_template('users/forms/reset-password.html', form=form)
