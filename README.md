@@ -1,10 +1,12 @@
 # Fboil
 
-Fboil is a robust Flask boilerplate setup powered by Flask-Login, WTForms, PostgreSQL & SQLAlchemy, and Flask-Testing. There's also Twitter OAuth login, branches for Semantic-UI/Bootstrap/no CSS, and a lot more. Fboil is ready to run on Heroku and test on Travis-CI.
+Fboil is a muscular, charming, and loyal Flask boilerplate powered by Flask-Login, WTForms, PostgreSQL & SQLAlchemy, and Flask-Testing. There's also Twitter OAuth login, branches for Semantic-UI/no CSS, and a lot more. Fboil is ready to run on Heroku and test on Travis-CI.
 
-Fboil is an extension of the updated version of the Flask-Boilerplate project found here: https://github.com/mjhea0/flask-boilerplate/tree/master/_updated
+Demo: https://fboil.herokuapp.com/
 
-##### Additions to flask-boilerplate
+Fboil is built off the [updated version](https://github.com/mjhea0/flask-boilerplate/tree/master/_updated) of Flask-Boilerplate.
+
+##### Additions to Flask-Boilerplate
 
 + User accounts
 	+ Email/username/password
@@ -26,7 +28,7 @@ Clone this repo then add your new repo location
 	$ mv fboil <Your app>
 	$ cd <Your app>
 	$ git remote rm origin
-	$ git remote add origin <the location of my new git repository>
+	$ git remote add origin <the location of your new git repo>
 	$ git push -u origin master
 
 Make sure you have [pip](https://pip.pypa.io/en/latest/installing.html) and [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html) installed.
@@ -121,25 +123,21 @@ If you want to have your app automatically tested when you push it to GitHub, yo
 
 (If you're just getting started with Flask, save this for later.)
 
-Sign in with GitHub and add your repo. You need to set the same config variables on Travis-CI as you did on Heroku, besides `APP_SETTINGS`, which is already set to `config.TestingConfig` for you in the `.travis.yml` file.
+Sign in to Travis-CI with your GitHub account and add your repository. You need to set the same config variables on Travis-CI as you did on Heroku, besides `APP_SETTINGS`, which is already set to `config.TestingConfig` for you in the `.travis.yml` file.
 
-Use different values for `SECRET_KEY` and `SECURITY_PASSWORD_SALT`, though.
-
-## Makefile
-
-Read through the Makefile so you know what the commands you use are doing.
+Make sure you don't use the same `SECRET_KEY` and `SECURITY_PASSWORD_SALT` as your development or production versions.
 
 ## Ideas for next steps
 + Send emails in background task
-	+ Use second dyno and turn it on/off when needed
+	+ Use second Heorku dyno and turn it on only when needed
 	+ Will cost less than a penny/month
 + Static files on S3
+	+ https://flask-cdn.readthedocs.org/en/latest/
 + CloudFlare
 
 ## TODO
-+ More detailed README instructions (numbered steps)
 + Clean up CSS & JS
 + `Collectstatic configuration error` on Heroku?
-+ Use Flask-Security instead of self-rolled email confirmation & password reset systems
-+ Make a simple extension of fboil (a blog or something)
++ Use Flask-Security
++ Make a simple extension of fboil (a Twitter clone or something)
 
