@@ -1,3 +1,5 @@
+{% set form=register_user_form %}
+
 {% extends 'layouts/form.html' %}
 
 {% block title %}Sign up{% endblock %}
@@ -19,10 +21,6 @@
   </div>
 
   <div class="ui field">
-    {{ form.username(placeholder = form.username.label.text, required = true, autofocus = true) }}
-  </div>
-
-  <div class="ui field">
     {{ form.email(placeholder = form.email.label.text, required = true) }}
   </div>
 
@@ -31,7 +29,7 @@
   </div>
 
   <div class="ui field">
-    {{ form.confirm(placeholder = form.confirm.label.text, required = true) }}
+    {{ form.username(placeholder = form.username.label.text, required = true) }}
   </div>
 
   <input class="ui fluid large olive submit button" type="submit" value="Sign up">
@@ -40,6 +38,6 @@
 
 {% block form_footer %}
     <div class="ui message">
-      Already have an account? <a href="{{ url_for('users.login') }}">Log in</a>
+      Already have an account? <a href="{{ url_for('security.login') }}">Log in</a>
     </div>
 {% endblock %}

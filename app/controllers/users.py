@@ -1,88 +1,15 @@
 import datetime
-from flask import (render_template, Blueprint, request, abort,
-                   redirect, url_for, flash, current_app, session)
-from flask.ext.login import (login_user, logout_user, login_required,
+from flask import (render_template, Blueprint, request, redirect, url_for, flash, current_app, session)
+from flask.ext.login import (login_user, login_required,
                              current_user)
-from itsdangerous import BadSignature
-from ..extensions import serializer, db, twitter
-from ..forms.users import (RegisterForm, LoginForm, ForgotPasswordForm,
-                           ResetPasswordForm, SetUsernameForm)
+from ..extensions import db, twitter, user_datastore
+from ..forms.users import SetUsernameForm
 from ..models.users import User
-from ..decorators import unconfirmed_email_required, logout_required
-from ..utils import send_email, email_user_confirmation_link
+from ..decorators import logout_required, unconfirmed_email_required
+from flask.ext.security.confirmable import send_confirmation_instructions, confirm_user
 
 
 users_blueprint = Blueprint('users', __name__)
-
-
-@users_blueprint.route('/login', methods=['GET', 'POST'])
-@logout_required
-def login():
-    form = LoginForm()
-
-    if request.method == 'POST':
-        if not form.validate():
-            return render_template('users/forms/login.html', form=form)
-        else:
-            user = form.get_user()
-            login_user(user, remember=True)
-            redirect_page = request.args.get("next", url_for("pages.home"))
-            return redirect(redirect_page)
-
-    elif request.method == 'GET':
-        return render_template('users/forms/login.html', form=form)
-
-
-@users_blueprint.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for("pages.home"))
-
-
-@users_blueprint.route('/signup', methods=['GET', 'POST'])
-@logout_required
-def register():
-    form = RegisterForm()
-
-    if request.method == 'POST':
-        if not form.validate():
-            return render_template('users/forms/register.html', form=form)
-        else:
-            new_user = form.create_user()
-            login_user(new_user, remember=True)
-
-            email_user_confirmation_link(new_user)
-
-            flash("Account created successfully! Please confirm your email.")
-            return redirect(url_for("pages.home"))
-    elif request.method == "GET":
-        return render_template('users/forms/register.html', form=form)
-
-
-@users_blueprint.route('/users/confirm/<token>')
-def confirm_user(token):
-    try:
-        user_id = serializer.load_token(token)
-    except BadSignature:
-        abort(404)
-
-    user = User.query.get_or_404(user_id)
-    if user.confirmed_email is True:
-        flash("Your email has already been confirmed.")
-        return redirect(url_for("pages.home"))
-    user.confirm_email()
-    login_user(user)
-    flash("Congrats! Your account has been activated.")
-    return redirect(url_for("pages.home"))
-
-
-@users_blueprint.route('/users/resend-confirmation')
-@login_required
-@unconfirmed_email_required
-def resend_confirmation_email():
-    email_user_confirmation_link(current_user)
-    flash("Resent confirmation email.")
-    return redirect(url_for("pages.home"))
 
 
 @users_blueprint.route('/confirm-email')
@@ -92,63 +19,13 @@ def need_confirm_email():
     return render_template('users/confirm-email.html')
 
 
-@users_blueprint.route('/forgot', methods=['GET', 'POST'])
-@logout_required
-def forgot_password():
-    form = ForgotPasswordForm()
-
-    if request.method == 'POST':
-        if not form.validate():
-            return render_template('users/forms/forgot-password.html',
-                                   form=form)
-        else:
-            email = form.email.data
-            token = serializer.serialize_timed_data(email)
-            reset_link = url_for(
-                'users.reset_password', token=token, _external=True)
-            subject = "Your password reset link"
-            html = render_template('users/emails/reset_password.html',
-                                   reset_link=reset_link)
-            send_email(email, subject, html)
-            flash("Password reset link emailed.")
-            return redirect(url_for('users.login'))
-    elif request.method == 'GET':
-        return render_template('users/forms/forgot-password.html', form=form)
-
-
-@users_blueprint.route('/users/reset-password/<token>', methods=["GET", "POST"])
-def reset_password(token):
-    form = ResetPasswordForm()
-
-    if request.method == "POST":
-        if not form.validate():
-            return render_template('users/forms/reset-password.html',
-                                   form=form)
-        else:
-            # get user from encoded email token in url
-            try:
-                email = serializer.load_timed_token(token)
-            except BadSignature:
-                abort(404)
-            user = User.get_by_email_or_username(identification=email)
-            if user is None:
-                abort(404)
-
-            # then change their password to the new one
-            form.change_password(user)
-            login_user(user)
-            flash("Password changed successfully!")
-            return redirect(url_for('pages.home'))
-
-    elif request.method == "GET":
-        try:
-            email = serializer.load_timed_token(token)
-        except BadSignature:
-            abort(404)
-        user = User.get_by_email_or_username(identification=email)
-        if user is None:
-            abort(404)
-        return render_template('users/forms/reset-password.html', form=form)
+@users_blueprint.route('/users/resend-confirmation')
+@login_required
+@unconfirmed_email_required
+def resend_confirmation_email():
+    send_confirmation_instructions(current_user)
+    flash("Resent confirmation email.")
+    return redirect(url_for("pages.home"))
 
 
 @users_blueprint.route('/twitter-login')
@@ -198,8 +75,12 @@ def oauth_authorized(resp):
         return redirect(next_url)
     else:
         new_user_username = User.make_unique_username(twitter_username)
-        new_user = User(username=new_user_username, twitter_username=twitter_username, is_oauth_user=True)
-        new_user.confirmed_email = True
+        new_user = user_datastore.create_user(username=new_user_username,
+                                              twitter_username=twitter_username,
+                                              is_oauth_user=True)
+        db.session.add(new_user)
+        db.session.commit()
+        confirm_user(new_user)
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)

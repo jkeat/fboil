@@ -1,11 +1,13 @@
 from flask import Flask, render_template
-from .extensions import (login_manager, db, mail, serializer,
-                         compress)
+from .extensions import (login_manager, db, compress, security,
+                         mail)
 
-from .models import *
+from .models.users import User
 
 from .controllers.pages import pages_blueprint
 from .controllers.users import users_blueprint
+
+from .forms.security import ExtendedConfirmRegisterForm
 
 import sys
 import logging
@@ -15,7 +17,6 @@ BLUEPRINTS = (
     pages_blueprint,
     users_blueprint,
 )
-
 
 def create_app(config_filename):
     app = Flask(__name__)
@@ -33,7 +34,6 @@ def create_app(config_filename):
 
 def configure_extensions(app):
     # flask-login
-    login_manager.login_view = 'users.login'
     login_manager.login_message = 'Log in required.'
 
     @login_manager.user_loader
@@ -47,11 +47,12 @@ def configure_extensions(app):
     # flask-mail
     mail.init_app(app)
 
-    # serialize
-    serializer.init_app(app)  # in app/serialize.py
-
     # flask-compress
     compress.init_app(app)
+
+    # flask-security
+    security.init_app(app,
+                      confirm_register_form=ExtendedConfirmRegisterForm)
 
 
 def configure_blueprints(app, blueprints):

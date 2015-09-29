@@ -12,14 +12,15 @@
       {{ current_user.username }}
       <i class="dropdown icon"></i>
       <div class="menu">
-        <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+        <a class="item" href="{{ url_for('security.change_password') }}">Change password</a>
+        <a class="item" href="{{ url_for('security.logout') }}">Logout</a>
       </div>
     </div>
   </div>
   {% else %}
   <div class="right menu">
-    <a class="item" href="{{ url_for('users.login') }}">Login</a>
-    <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+    <a class="item" href="{{ url_for('security.login') }}">Login</a>
+    <a class="item" href="{{ url_for('security.register') }}">Signup</a>
   </div>
   {% endif %}
 {% endblock %}
@@ -40,15 +41,16 @@
               {{ current_user.username }}
             </div>
             <div class="divider"></div>
-            <a class="item" href="{{ url_for('users.logout') }}">Logout</a>
+            <a class="item" href="{{ url_for('security.change_password') }}">Change password</a>
+            <a class="item" href="{{ url_for('security.logout') }}">Logout</a>
           {% else %}
             <div class="header">
               <i class="user icon"></i>
               Account
             </div>
             <div class="divider"></div>
-            <a class="item" href="{{ url_for('users.login') }}">Login</a>
-            <a class="item" href="{{ url_for('users.register') }}">Signup</a>
+            <a class="item" href="{{ url_for('security.login') }}">Login</a>
+            <a class="item" href="{{ url_for('security.register') }}">Signup</a>
           {% endif %}
       </div>
     </div>

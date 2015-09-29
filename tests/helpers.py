@@ -1,8 +1,9 @@
 from flask import url_for
 from flask.ext.testing import TestCase
-from flask.ext.login import current_user
-from app import create_app, User
+from app import create_app
 from app.extensions import db
+from app.extensions import user_datastore
+from flask.ext.security.confirmable import confirm_user as security_confirm_user
 
 
 class BaseTestCase(TestCase):
@@ -34,7 +35,7 @@ class BaseUserTestCase(BaseTestCase):
                                      password=self.USER_PASSWORD)
 
     def create_user(self, **kwargs):
-        user = User(**kwargs)
+        user = user_datastore.create_user(**kwargs)
         db.session.add(user)
         db.session.commit()
         return user
@@ -49,10 +50,19 @@ class BaseUserTestCase(BaseTestCase):
             username = self.USER_USERNAME
         if password is None:
             password = self.USER_PASSWORD
-        self.client.post(url_for('users.login'),
+        self.client.post(url_for('security.login'),
                          data={"username": username,
                                "password": password},
                          follow_redirects=True)
 
+
     def logout_user(self):
-        self.client.get(url_for('users.logout'))
+        self.client.get(url_for('security.logout'))
+
+    def confirm_user(self, user=None):
+        if not user:
+            user = self.user
+
+        security_confirm_user(user)
+        db.session.add(user)
+        db.session.commit()

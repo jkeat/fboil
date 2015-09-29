@@ -28,3 +28,8 @@ def get_twitter_token(token=None):
 
 from flask.ext.compress import Compress
 compress = Compress()
+
+from flask.ext.security import SQLAlchemyUserDatastore, Security
+from .models.users import User, Role
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(datastore=user_datastore)

@@ -1,3 +1,5 @@
+{% set form=login_user_form %}
+
 {% extends 'layouts/form.html' %}
 
 {% block title %}Log in to fboil{% endblock %}
@@ -17,7 +19,7 @@
   {{ form.hidden_tag() }}
 
   <div class="ui field">
-    {{ form.username(placeholder = form.username.label.text, required = true, autofocus = true) }}
+    {{ form.email(placeholder = "Username or email", required = true, autofocus = true) }}
   </div>
 
   <div class="ui field">
@@ -25,7 +27,7 @@
   </div>
   {% if form.errors %}
     <div class="hint">
-      Forgot your password? <a href="{{ url_for('users.forgot_password') }}">Set a new one.</a>
+      Forgot your password? <a href="{{ url_for('security.forgot_password') }}">Set a new one.</a>
     </div>
   {% endif %}
 
@@ -35,6 +37,6 @@
 
 {% block form_footer %}
     <div class="ui message">
-      Don't have an account? <a href="{{ url_for('users.register') }}">Sign up</a>
+      Don't have an account? <a href="{{ url_for('security.register') }}">Sign up</a>
     </div>
 {% endblock %}

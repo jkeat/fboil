@@ -1,9 +1,23 @@
-from werkzeug import generate_password_hash, check_password_hash
 from sqlalchemy import or_, func
 from ..extensions import db
+from flask.ext.security import UserMixin, RoleMixin
 
 
-class User(db.Model):
+roles_users = db.Table('roles_users',
+        db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
+        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+    def __repr__(self):
+        return '<Role {0}>'.format(self.name)
+
+
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -11,31 +25,20 @@ class User(db.Model):
     created_on = db.Column(db.DateTime, server_default=db.func.now())
 
     email = db.Column(db.String(255), unique=True)
-    confirmed_email = db.Column(db.Boolean(), default=False)
 
-    passhash = db.Column(db.String(255))
+    password = db.Column(db.String(255))
 
     is_oauth_user = db.Column(db.Boolean(), default=False)
     twitter_username = db.Column(db.String(255), unique=True)
 
-    def __init__(self, password=None, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if password:
-            self.set_password(password)
+    # flask-security
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
 
     def __repr__(self):
         return '<User {0} ({1})>'.format(self.username, self.id)
-
-    def set_password(self, password):
-        self.passhash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.passhash, password)
-
-    def confirm_email(self):
-        self.confirmed_email = True
-        db.session.add(self)
-        db.session.commit()
 
     # ========= Flask-Login required methods vvv
     def is_active(self):

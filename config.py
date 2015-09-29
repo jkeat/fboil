@@ -5,6 +5,19 @@ class BaseConfig(object):
 	# general
 	BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 	SECRET_KEY = os.environ.get('SECRET_KEY')
+
+	# flask-security
+	SECURITY_REGISTERABLE = True
+	SECURITY_RECOVERABLE = True
+	SECURITY_CONFIRMABLE = True
+	SECURITY_CHANGEABLE = True
+	SECURITY_USER_IDENTITY_ATTRIBUTES = 'email,username'
+	SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
+	# Logged-in users are asked via users/confirm-email.html if they want a confirmation
+	# link re-sent when they try to access a page that requires confirmation, so
+	# this isn't needed and the 404 page is given instead. Is there a better way to do this?
+	SECURITY_SEND_CONFIRMATION_TEMPLATE = "errors/404.html"  # prompt
+	SECURITY_PASSWORD_HASH = "bcrypt"
 	SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
 
 	# mail settings

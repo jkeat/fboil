@@ -138,6 +138,9 @@ Make sure you don't use the same `SECRET_KEY` and `SECURITY_PASSWORD_SALT` as yo
 ## TODO
 + Clean up CSS & JS
 + `Collectstatic configuration error` on Heroku?
-+ Use Flask-Security
++ Flask-Security
+	+ Testing
+	+ Clean up unused old user blueprint stuff
 + Make a simple extension of fboil (a Twitter clone or something)
++ Save Twitter I.D. as unique identifier, not username
 
