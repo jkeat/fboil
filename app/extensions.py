@@ -7,9 +7,6 @@ db = SQLAlchemy()
 from flask_mail import Mail
 mail = Mail()
 
-from .serialize import Serializer
-serializer = Serializer()
-
 import os
 from flask_oauthlib.client import OAuth
 oauth = OAuth()
